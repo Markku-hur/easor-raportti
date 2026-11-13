@@ -1,0 +1,29 @@
+{
+  "name": "easor-report-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Read-only Easor MCP server for the Easor talousraportti artifact",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "setup:claude": "node scripts/add-to-claude.mjs",
+    "test": "npm run build && node --test test/report.test.mjs"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Easor Oyj",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "dotenv": "^17.4.2",
+    "undici": "^6.28.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "typescript": "^7.0.2"
+  }
+}

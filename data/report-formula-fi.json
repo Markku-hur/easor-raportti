@@ -1,0 +1,1405 @@
+{
+  "tuloslaskelma": {
+    "name": "TULOSLASKELMA",
+    "children": [
+      {
+        "name": "LIIKEVAIHTO",
+        "reportingGroup": "LIIKEVAIHTO",
+        "order": 1
+      },
+      {
+        "name": "Valmiiden ja keskeneräisten tuotteiden varastojen muutos",
+        "reportingGroup": "Valmiiden ja keskeneräisten tuotteiden varastojen muutos",
+        "order": 2
+      },
+      {
+        "name": "Valmistus omaan käyttöön",
+        "reportingGroup": "Valmistus omaan käyttöön",
+        "order": 3
+      },
+      {
+        "name": "Liiketoiminnan muut tuotot",
+        "reportingGroup": "Liiketoiminnan muut tuotot",
+        "order": 4
+      },
+      {
+        "name": "Materiaalit ja palvelut",
+        "children": [
+          {
+            "name": "Aineet, tarvikkeet ja tavarat",
+            "children": [
+              {
+                "name": "Ostot tilikauden aikana",
+                "reportingGroup": "Ostot tilikauden aikana",
+                "order": 1
+              },
+              {
+                "name": "Varastojen muutos",
+                "reportingGroup": "Varastojen muutos",
+                "order": 2
+              }
+            ],
+            "order": 1
+          },
+          {
+            "name": "Ulkopuoliset palvelut",
+            "reportingGroup": "Ulkopuoliset palvelut",
+            "order": 2
+          }
+        ],
+        "order": 5
+      },
+      {
+        "name": "Henkilöstökulut",
+        "children": [
+          {
+            "name": "Palkat ja palkkiot",
+            "reportingGroup": "Palkat ja palkkiot",
+            "order": 1
+          },
+          {
+            "name": "Henkilösivukulut",
+            "children": [
+              {
+                "name": "Eläkekulut",
+                "reportingGroup": "Eläkekulut",
+                "order": 1
+              },
+              {
+                "name": "Muut henkilösivukulut",
+                "reportingGroup": "Muut henkilösivukulut",
+                "order": 2
+              }
+            ],
+            "order": 2
+          }
+        ],
+        "order": 6
+      },
+      {
+        "name": "Poistot ja arvonalentumiset",
+        "children": [
+          {
+            "name": "Suunnitelman mukaiset poistot",
+            "reportingGroup": "Suunnitelman mukaiset poistot",
+            "order": 1
+          },
+          {
+            "name": "Konserniliikearvon poisto ja konsernireservin vähennys",
+            "reportingGroup": "Konserniliikearvon poisto ja konsernireservin vähennys",
+            "order": 2
+          },
+          {
+            "name": "Arvonalentumiset pysyvien vastaavien hyödykkeistä",
+            "reportingGroup": "Arvonalentumiset pysyvien vastaavien hyödykkeistä",
+            "order": 3
+          },
+          {
+            "name": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset",
+            "reportingGroup": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset",
+            "order": 4
+          }
+        ],
+        "order": 7
+      },
+      {
+        "name": "Liiketoiminnan muut kulut",
+        "reportingGroup": "Liiketoiminnan muut kulut",
+        "order": 8
+      },
+      {
+        "name": "Osuus osakkuusyritysten voitosta(tappiosta)",
+        "reportingGroup": "Osuus osakkuusyritysten voitosta(tappiosta)",
+        "order": 9
+      },
+      {
+        "name": "LIIKEVOITTO(-TAPPIO)",
+        "isSubtotal": true,
+        "order": 10
+      },
+      {
+        "name": "Rahoitustuotot ja -kulut",
+        "children": [
+          {
+            "name": "Tuotot osuuksista saman konsernin yrityksissä",
+            "reportingGroup": "Tuotot osuuksista saman konsernin yrityksissä",
+            "order": 1
+          },
+          {
+            "name": "Tuotot osuuksista omistusyhteysyrityksissä",
+            "reportingGroup": "Tuotot osuuksista omistusyhteysyrityksissä",
+            "order": 2
+          },
+          {
+            "name": "Tuotot muista pysyvien vastaavien sijoituksista",
+            "children": [
+              {
+                "name": "Saman konsernin yrityksiltä",
+                "reportingGroup": "Saman konsernin yrityksiltä",
+                "reportingGroupParent": "Tuotot muista pysyvien vastaavien sijoituksista",
+                "order": 1
+              },
+              {
+                "name": "Muilta",
+                "reportingGroup": "Muilta",
+                "reportingGroupParent": "Tuotot muista pysyvien vastaavien sijoituksista",
+                "order": 2
+              }
+            ],
+            "order": 3
+          },
+          {
+            "name": "Muut korko- ja rahoitustuotot",
+            "children": [
+              {
+                "name": "Saman konsernin yrityksiltä",
+                "reportingGroup": "Saman konsernin yrityksiltä",
+                "reportingGroupParent": "Muut korko- ja rahoitustuotot",
+                "order": 1
+              },
+              {
+                "name": "Muilta",
+                "reportingGroup": "Muilta",
+                "reportingGroupParent": "Muut korko- ja rahoitustuotot",
+                "order": 2
+              }
+            ],
+            "order": 4
+          },
+          {
+            "name": "Arvonalentumiset pysyvien vastaavien sijoituksista",
+            "reportingGroup": "Arvonalentumiset pysyvien vastaavien sijoituksista",
+            "order": 5
+          },
+          {
+            "name": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista",
+            "reportingGroup": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista",
+            "order": 6
+          },
+          {
+            "name": "Korkokulut ja muut rahoituskulut",
+            "children": [
+              {
+                "name": "Saman konsernin yrityksille",
+                "reportingGroup": "Saman konsernin yrityksille",
+                "order": 1
+              },
+              {
+                "name": "Muille",
+                "reportingGroup": "Muille",
+                "order": 2
+              }
+            ],
+            "order": 7
+          }
+        ],
+        "order": 11
+      },
+      {
+        "name": "VOITTO(TAPPIO) ENNEN TILINPÄÄTÖSSIIRTOJA JA VEROJA",
+        "isSubtotal": true,
+        "order": 12
+      },
+      {
+        "name": "Tilinpäätössiirrot",
+        "children": [
+          {
+            "name": "Poistoeron muutos",
+            "reportingGroup": "Poistoeron muutos",
+            "order": 1
+          },
+          {
+            "name": "Verotusperusteisten varausten muutos",
+            "reportingGroup": "Verotusperusteisten varausten muutos",
+            "order": 2
+          },
+          {
+            "name": "Konserniavustus",
+            "reportingGroup": "Konserniavustus",
+            "order": 3
+          }
+        ],
+        "order": 13
+      },
+      {
+        "name": "Tuloverot",
+        "reportingGroup": "Tuloverot",
+        "order": 14
+      },
+      {
+        "name": "Muut välittömät verot",
+        "reportingGroup": "Muut välittömät verot",
+        "order": 15
+      },
+      {
+        "name": "Vähemmistöosuudet",
+        "reportingGroup": "Vähemmistöosuudet",
+        "order": 16
+      },
+      {
+        "name": "TILIKAUDEN VOITTO(TAPPIO)",
+        "isSubtotal": true,
+        "order": 17
+      }
+    ],
+    "order": 1
+  },
+  "tase": {
+    "vastaavaa": {
+      "name": "TASE VASTAAVAA",
+      "children": [
+        {
+          "name": "PYSYVÄT VASTAAVAT",
+          "children": [
+            {
+              "name": "Aineettomat hyödykkeet",
+              "children": [
+                {
+                  "name": "Kehittämismenot",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineettomat hyödykkeet",
+                    "Kehittämismenot"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Aineettomat oikeudet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineettomat hyödykkeet",
+                    "Aineettomat oikeudet"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Liikearvo",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineettomat hyödykkeet",
+                    "Liikearvo"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Konserniliikearvo",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineettomat hyödykkeet",
+                    "Konserniliikearvo"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Muut aineettomat hyödykkeet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineettomat hyödykkeet",
+                    "Muut aineettomat hyödykkeet"
+                  ],
+                  "order": 5
+                },
+                {
+                  "name": "Ennakkomaksut",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineettomat hyödykkeet",
+                    "Ennakkomaksut"
+                  ],
+                  "order": 6
+                }
+              ],
+              "order": 1
+            },
+            {
+              "name": "Aineelliset hyödykkeet",
+              "children": [
+                {
+                  "name": "Maa- ja vesialueet",
+                  "children": [
+                    {
+                      "name": "Omistetut",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "PYSYVÄT VASTAAVAT",
+                        "Aineelliset hyödykkeet",
+                        "Maa- ja vesialueet",
+                        "Omistetut"
+                      ],
+                      "order": 1
+                    },
+                    {
+                      "name": "Vuokraoikeudet",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "PYSYVÄT VASTAAVAT",
+                        "Aineelliset hyödykkeet",
+                        "Maa- ja vesialueet",
+                        "Vuokraoikeudet"
+                      ],
+                      "order": 2
+                    }
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Rakennukset ja rakennelmat",
+                  "children": [
+                    {
+                      "name": "Omistetut",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "PYSYVÄT VASTAAVAT",
+                        "Aineelliset hyödykkeet",
+                        "Rakennukset ja rakennelmat",
+                        "Omistetut"
+                      ],
+                      "order": 1
+                    },
+                    {
+                      "name": "Vuokraoikeudet",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "PYSYVÄT VASTAAVAT",
+                        "Aineelliset hyödykkeet",
+                        "Rakennukset ja rakennelmat",
+                        "Vuokraoikeudet"
+                      ],
+                      "order": 2
+                    }
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Koneet ja kalusto",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineelliset hyödykkeet",
+                    "Koneet ja kalusto"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Muut aineelliset hyödykkeet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineelliset hyödykkeet",
+                    "Muut aineelliset hyödykkeet"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Ennakkomaksut ja keskener hankinnat",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Aineelliset hyödykkeet",
+                    "Ennakkomaksut ja keskener hankinnat"
+                  ],
+                  "order": 5
+                }
+              ],
+              "order": 2
+            },
+            {
+              "name": "Sijoitukset",
+              "children": [
+                {
+                  "name": "Osuudet saman konsernin yrityksissä",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Sijoitukset",
+                    "Osuudet saman konsernin yrityksissä"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Saamiset saman konsernin yrityksiltä",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Sijoitukset",
+                    "Saamiset saman konsernin yrityksiltä"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Osuudet omistusyhteysyrityksissä",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Sijoitukset",
+                    "Osuudet omistusyhteysyrityksissä"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Saamiset omistusyhteysyrityksiltä",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Sijoitukset",
+                    "Saamiset omistusyhteysyrityksiltä"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Muut osakkeet ja osuudet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Sijoitukset",
+                    "Muut osakkeet ja osuudet"
+                  ],
+                  "order": 5
+                },
+                {
+                  "name": "Muut saamiset",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "PYSYVÄT VASTAAVAT",
+                    "Sijoitukset",
+                    "Muut saamiset"
+                  ],
+                  "order": 6
+                }
+              ],
+              "order": 3
+            }
+          ],
+          "order": 1
+        },
+        {
+          "name": "VAIHTUVAT VASTAAVAT",
+          "children": [
+            {
+              "name": "Vaihto-omaisuus",
+              "children": [
+                {
+                  "name": "Aineet ja tarvikkeet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Vaihto-omaisuus",
+                    "Aineet ja tarvikkeet"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Keskeneräiset tuotteet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Vaihto-omaisuus",
+                    "Keskeneräiset tuotteet"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Valmiit tuotteet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Vaihto-omaisuus",
+                    "Valmiit tuotteet"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Tavarat",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Vaihto-omaisuus",
+                    "Tavarat"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Muu vaihto-omaisuus",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Vaihto-omaisuus",
+                    "Muu vaihto-omaisuus"
+                  ],
+                  "order": 5
+                },
+                {
+                  "name": "Ennakkomaksut",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Vaihto-omaisuus",
+                    "Ennakkomaksut"
+                  ],
+                  "order": 6
+                }
+              ],
+              "order": 1
+            },
+            {
+              "name": "Saamiset",
+              "children": [
+                {
+                  "name": "Pitkäaikaiset saamiset",
+                  "children": [
+                    {
+                      "name": "Myyntisaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Myyntisaamiset"
+                      ],
+                      "order": 1
+                    },
+                    {
+                      "name": "Saamiset saman konsernin yrityksiltä",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Saamiset saman konsernin yrityksiltä"
+                      ],
+                      "order": 2
+                    },
+                    {
+                      "name": "Saamiset omistusyhteysyrityksiltä",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Saamiset omistusyhteysyrityksiltä"
+                      ],
+                      "order": 3
+                    },
+                    {
+                      "name": "Lainasaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Lainasaamiset"
+                      ],
+                      "order": 4
+                    },
+                    {
+                      "name": "Muut saamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Muut saamiset"
+                      ],
+                      "order": 5
+                    },
+                    {
+                      "name": "Maksamattomat osakkeet/osuudet",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Maksamattomat osakkeet/osuudet"
+                      ],
+                      "order": 6
+                    },
+                    {
+                      "name": "Siirtosaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Siirtosaamiset"
+                      ],
+                      "order": 7
+                    },
+                    {
+                      "name": "Laskennalliset verosaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Pitkäaikaiset saamiset",
+                        "Laskennalliset verosaamiset"
+                      ],
+                      "order": 8
+                    }
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Lyhytaikaiset saamiset",
+                  "children": [
+                    {
+                      "name": "Myyntisaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Myyntisaamiset"
+                      ],
+                      "order": 1
+                    },
+                    {
+                      "name": "Saamiset saman konsernin yrityksiltä",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Saamiset saman konsernin yrityksiltä"
+                      ],
+                      "order": 2
+                    },
+                    {
+                      "name": "Saamiset omistusyhteysyrityksiltä",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Saamiset omistusyhteysyrityksiltä"
+                      ],
+                      "order": 3
+                    },
+                    {
+                      "name": "Lainasaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Lainasaamiset"
+                      ],
+                      "order": 4
+                    },
+                    {
+                      "name": "Muut saamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Muut saamiset"
+                      ],
+                      "order": 5
+                    },
+                    {
+                      "name": "Maksamattomat osakkeet/osuudet",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Maksamattomat osakkeet/osuudet"
+                      ],
+                      "order": 6
+                    },
+                    {
+                      "name": "Siirtosaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Siirtosaamiset"
+                      ],
+                      "order": 7
+                    },
+                    {
+                      "name": "Laskennalliset verosaamiset",
+                      "groupPath": [
+                        "TASE VASTAAVAA",
+                        "VAIHTUVAT VASTAAVAT",
+                        "Saamiset",
+                        "Lyhytaikaiset saamiset",
+                        "Laskennalliset verosaamiset"
+                      ],
+                      "order": 8
+                    }
+                  ],
+                  "order": 2
+                }
+              ],
+              "order": 2
+            },
+            {
+              "name": "Rahoitusarvopaperit",
+              "children": [
+                {
+                  "name": "Osuudet saman konsernin yrityksissä",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Rahoitusarvopaperit",
+                    "Osuudet saman konsernin yrityksissä"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Muut osakkeet ja osuudet",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Rahoitusarvopaperit",
+                    "Muut osakkeet ja osuudet"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Muut arvopaperit",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Rahoitusarvopaperit",
+                    "Muut arvopaperit"
+                  ],
+                  "order": 3
+                }
+              ],
+              "order": 3
+            },
+            {
+              "name": "Rahat ja pankkisaamiset",
+              "children": [
+                {
+                  "name": "Rahat",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Rahat ja pankkisaamiset",
+                    "Rahat"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Pankkisaamiset",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Rahat ja pankkisaamiset",
+                    "Pankkisaamiset"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Rahansiirrot ja täsmäytykset",
+                  "groupPath": [
+                    "TASE VASTAAVAA",
+                    "VAIHTUVAT VASTAAVAT",
+                    "Rahat ja pankkisaamiset",
+                    "Rahansiirrot ja täsmäytykset"
+                  ],
+                  "order": 3
+                }
+              ],
+              "order": 4
+            }
+          ],
+          "order": 2
+        }
+      ],
+      "order": 1
+    },
+    "vastattavaa": {
+      "name": "TASE VASTATTAVAA",
+      "children": [
+        {
+          "name": "OMA PÄÄOMA",
+          "children": [
+            {
+              "name": "Osakepääoma",
+              "children": [
+                {
+                  "name": "Osakepääoma",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Osakepääoma",
+                    "Osakepääoma"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Osakepääoman korotus",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Osakepääoma",
+                    "Osakepääoman korotus"
+                  ],
+                  "order": 2
+                }
+              ],
+              "order": 1
+            },
+            {
+              "name": "Ylikurssirahasto",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Ylikurssirahasto"
+              ],
+              "order": 2
+            },
+            {
+              "name": "Arvonkorotusrahasto",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Arvonkorotusrahasto"
+              ],
+              "order": 3
+            },
+            {
+              "name": "Muut rahastot",
+              "children": [
+                {
+                  "name": "Käyvän arvon rahasto",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Muut rahastot",
+                    "Käyvän arvon rahasto"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Vararahasto",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Muut rahastot",
+                    "Vararahasto"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Sijoitetun vapaan oman pääoman rahasto",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Muut rahastot",
+                    "Sijoitetun vapaan oman pääoman rahasto"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Yhtiöjärjestyksen mukaiset rahastot",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Muut rahastot",
+                    "Yhtiöjärjestyksen mukaiset rahastot"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Muut rahastot",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Muut rahastot",
+                    "Muut rahastot"
+                  ],
+                  "order": 5
+                },
+                {
+                  "name": "Sääntöjen mukaiset rahastot",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Muut rahastot",
+                    "Sääntöjen mukaiset rahastot"
+                  ],
+                  "order": 6
+                }
+              ],
+              "order": 4
+            },
+            {
+              "name": "Osuuspääoma",
+              "children": [
+                {
+                  "name": "Osuuspääoma",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Osuuspääoma",
+                    "Osuuspääoma"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Lisäosuuspääoma",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Osuuspääoma",
+                    "Lisäosuuspääoma"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Sijoitusosuuspääoma",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Osuuspääoma",
+                    "Sijoitusosuuspääoma"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Odotusajaksi vieraaseen pääomaan siirretyt irtisanotut osuusmaksut",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "OMA PÄÄOMA",
+                    "Osuuspääoma",
+                    "Odotusajaksi vieraaseen pääomaan siirretyt irtisanotut osuusmaksut"
+                  ],
+                  "order": 4
+                }
+              ],
+              "order": 5
+            },
+            {
+              "name": "Pääomapanokset",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Pääomapanokset"
+              ],
+              "order": 6
+            },
+            {
+              "name": "Peruspääoma",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Peruspääoma"
+              ],
+              "order": 7
+            },
+            {
+              "name": "Edellisten tilikausien voitto (tappio)",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Edellisten tilikausien voitto (tappio)"
+              ],
+              "order": 8
+            },
+            {
+              "name": "Pääomavajaus ed. tilikausilta",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Pääomavajaus ed. tilikausilta"
+              ],
+              "order": 9
+            },
+            {
+              "name": "Yksityistilit tilikaudella",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Yksityistilit tilikaudella"
+              ],
+              "order": 10
+            },
+            {
+              "name": "Tilikauden voitto (tappio)",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Tilikauden voitto (tappio)"
+              ],
+              "order": 11
+            },
+            {
+              "name": "Pääomalainat",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "OMA PÄÄOMA",
+                "Pääomalainat"
+              ],
+              "order": 12
+            }
+          ],
+          "order": 1
+        },
+        {
+          "name": "VÄHEMMISTÖOSUUS",
+          "groupPath": [
+            "TASE VASTATTAVAA",
+            "VÄHEMMISTÖOSUUS"
+          ],
+          "order": 2
+        },
+        {
+          "name": "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
+          "children": [
+            {
+              "name": "Poistoero",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
+                "Poistoero"
+              ],
+              "order": 1
+            },
+            {
+              "name": "Verotusperusteiset varaukset",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
+                "Verotusperusteiset varaukset"
+              ],
+              "order": 2
+            }
+          ],
+          "order": 3
+        },
+        {
+          "name": "PAKOLLISET VARAUKSET",
+          "children": [
+            {
+              "name": "Eläkevaraukset",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "PAKOLLISET VARAUKSET",
+                "Eläkevaraukset"
+              ],
+              "order": 1
+            },
+            {
+              "name": "Verovaraukset",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "PAKOLLISET VARAUKSET",
+                "Verovaraukset"
+              ],
+              "order": 2
+            },
+            {
+              "name": "Muut pakolliset varaukset",
+              "groupPath": [
+                "TASE VASTATTAVAA",
+                "PAKOLLISET VARAUKSET",
+                "Muut pakolliset varaukset"
+              ],
+              "order": 3
+            }
+          ],
+          "order": 4
+        },
+        {
+          "name": "KONSERNIRESERVI",
+          "groupPath": [
+            "TASE VASTATTAVAA",
+            "KONSERNIRESERVI"
+          ],
+          "order": 5
+        },
+        {
+          "name": "VIERAS PÄÄOMA",
+          "children": [
+            {
+              "name": "Pitkäaikainen",
+              "children": [
+                {
+                  "name": "Pääomalainat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Pääomalainat"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Joukkovelkakirjalainat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Joukkovelkakirjalainat"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Vaihtovelkakirjalainat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Vaihtovelkakirjalainat"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Lainat rahoituslaitoksilta",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Lainat rahoituslaitoksilta"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Takaisinlainat työeläkevakuutuslaitoksilta",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Takaisinlainat työeläkevakuutuslaitoksilta"
+                  ],
+                  "order": 5
+                },
+                {
+                  "name": "Saadut ennakot",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Saadut ennakot"
+                  ],
+                  "order": 6
+                },
+                {
+                  "name": "Ostovelat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Ostovelat"
+                  ],
+                  "order": 7
+                },
+                {
+                  "name": "Rahoitusvekselit",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Rahoitusvekselit"
+                  ],
+                  "order": 8
+                },
+                {
+                  "name": "Velat saman konsernin yrityksille",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Velat saman konsernin yrityksille"
+                  ],
+                  "order": 9
+                },
+                {
+                  "name": "Velat omistusyhteysyrityksille",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Velat omistusyhteysyrityksille"
+                  ],
+                  "order": 10
+                },
+                {
+                  "name": "Muut velat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Muut velat"
+                  ],
+                  "order": 11
+                },
+                {
+                  "name": "Siirtovelat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Siirtovelat"
+                  ],
+                  "order": 12
+                },
+                {
+                  "name": "Laskennalliset verovelat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Pitkäaikainen",
+                    "Laskennalliset verovelat"
+                  ],
+                  "order": 13
+                }
+              ],
+              "order": 1
+            },
+            {
+              "name": "Lyhytaikainen",
+              "children": [
+                {
+                  "name": "Pääomalainat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Pääomalainat"
+                  ],
+                  "order": 1
+                },
+                {
+                  "name": "Joukkovelkakirjalainat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Joukkovelkakirjalainat"
+                  ],
+                  "order": 2
+                },
+                {
+                  "name": "Vaihtovelkakirjalainat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Vaihtovelkakirjalainat"
+                  ],
+                  "order": 3
+                },
+                {
+                  "name": "Lainat rahoituslaitoksilta",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Lainat rahoituslaitoksilta"
+                  ],
+                  "order": 4
+                },
+                {
+                  "name": "Takaisinlainat työeläkevakuutuslaitoksilta",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Takaisinlainat työeläkevakuutuslaitoksilta"
+                  ],
+                  "order": 5
+                },
+                {
+                  "name": "Saadut ennakot",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Saadut ennakot"
+                  ],
+                  "order": 6
+                },
+                {
+                  "name": "Ostovelat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Ostovelat"
+                  ],
+                  "order": 7
+                },
+                {
+                  "name": "Rahoitusvekselit",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Rahoitusvekselit"
+                  ],
+                  "order": 8
+                },
+                {
+                  "name": "Velat saman konsernin yrityksille",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Velat saman konsernin yrityksille"
+                  ],
+                  "order": 9
+                },
+                {
+                  "name": "Velat omistusyhteysyrityksille",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Velat omistusyhteysyrityksille"
+                  ],
+                  "order": 10
+                },
+                {
+                  "name": "Muut velat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Muut velat"
+                  ],
+                  "order": 11
+                },
+                {
+                  "name": "Siirtovelat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Siirtovelat"
+                  ],
+                  "order": 12
+                },
+                {
+                  "name": "Laskennalliset verovelat",
+                  "groupPath": [
+                    "TASE VASTATTAVAA",
+                    "VIERAS PÄÄOMA",
+                    "Lyhytaikainen",
+                    "Laskennalliset verovelat"
+                  ],
+                  "order": 13
+                }
+              ],
+              "order": 2
+            }
+          ],
+          "order": 6
+        }
+      ],
+      "order": 1
+    }
+  }
+}

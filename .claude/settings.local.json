@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\" && npm run build 2>&1)",
+      "Bash(cmd.exe /c \"where node\" 2>&1)",
+      "Bash(cmd.exe /c \"where node && where npm\" 2>&1)",
+      "Bash(cmd.exe /c \"node --version\" 2>&1; cmd.exe /c \"npm --version\" 2>&1)",
+      "Bash(cmd.exe /c \"dir /s /b \\\\\"C:\\\\\\\\Program Files\\\\\\\\nodejs\\\\\\\\node.exe\\\\\" 2>nul & dir /s /b \\\\\"C:\\\\\\\\Program Files \\(x86\\)\\\\\\\\nodejs\\\\\\\\node.exe\\\\\" 2>nul & dir /s /b \\\\\"%APPDATA%\\\\\\\\nvm\\\\\\\\node.exe\\\\\" 2>nul & dir /s /b \\\\\"%LOCALAPPDATA%\\\\\\\\Programs\\\\\\\\nodejs\\\\\\\\node.exe\\\\\" 2>nul\")",
+      "Bash(powershell.exe -Command \"Get-Command node -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell.exe -Command \"Get-ChildItem 'C:\\\\Program Files', 'C:\\\\Users\\\\Admin\\\\AppData\\\\Local', 'C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming' -Recurse -Depth 3 -Filter 'node.exe' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName\" 2>&1)",
+      "Bash(NODE=\"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\node.exe\" && NPM=\"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\npm.cmd\" && \"$NPM\" --prefix \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\" run build 2>&1)",
+      "Bash(\"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\node.exe\" \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\\\\node_modules\\\\.bin\\\\tsc\" --project \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\\\\tsconfig.json\" 2>&1)",
+      "Bash(NPM=\"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\npm.cmd\" && cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\" && \"$NPM\" ci 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\" && \"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\npm.cmd\" run build 2>&1)",
+      "Bash(NODE=\"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\node.exe\" && \"$NODE\" \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\\\\node_modules\\\\typescript\\\\bin\\\\tsc\" --project \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\\\\tsconfig.json\" 2>&1)",
+      "Bash(NODE=\"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\nodejs\\\\node-v22.11.0-win-x64\\\\node.exe\" && \"$NODE\" --test \"C:\\\\Users\\\\Admin\\\\Documents\\\\easor-raportti\\\\test\\\\report.test.mjs\" 2>&1)"
+    ]
+  }
+}

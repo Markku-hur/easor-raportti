@@ -1,0 +1,23 @@
+{
+  "mcp": {
+    "servers": [
+      {
+        "server": "host:easor",
+        "tools": [
+          "list_configured_organizations",
+          "get_organisation_info",
+          "get_accounting_periods",
+          "build_profit_and_loss_statement",
+          "build_balance_sheet",
+          "sales_get_invoice",
+          "get_dimension_settings",
+          "get_dimension_values",
+          "get_general_ledger_events",
+          "get_used_chart_of_accounts",
+          "lookup_chart_of_accounts_template",
+          "get_voucher_image"
+        ]
+      }
+    ]
+  }
+}
