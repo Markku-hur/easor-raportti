@@ -2,6 +2,8 @@
 
 Yhden asiakkaan talousraportti Claude-työpöytäsovelluksessa: tuloslaskelma, tase, vertailu edelliseen vuoteen, kuukausikehitys, myyntilaskut ja seurantakohderajaus. Luvut haetaan Easorista, kun painat *Hae luvut*.
 
+Raporttisivu: https://claude.ai/code/artifact/a5a605ff-fd2e-41e9-8ed9-f0fad9ad2e18
+
 Paketissa on kaksi osaa:
 
 - **Palvelin** (tämä kansio): pieni ohjelma, joka hakee luvut Easorin rajapinnasta. Se pystyy vain lukemaan, ja se toimii vain omalla koneellasi ilman verkko-osoitetta.
