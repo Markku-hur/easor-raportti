@@ -667,7 +667,7 @@ let bsTplGroups = null;
 async function bsTemplateGroups(){
   if (!bsTplGroups){
     const r = await call("lookup_chart_of_accounts_template",{groupContains:"TASE", limit:5000});
-    bsTplGroups = new Map((r?.accounts||[]).filter(a=>a.groupPath?.[0]==="TASE").map(a=>[String(a.number), a.reportingGroup]));
+    bsTplGroups = new Map((r?.accounts||[]).filter(a=>a.groupPath?.[0]?.startsWith("TASE")).map(a=>[String(a.number), a.reportingGroup]));
   }
   return bsTplGroups;
 }
