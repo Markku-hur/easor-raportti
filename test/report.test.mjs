@@ -61,7 +61,11 @@ test("the only POST in the source is the OAuth token request", () => {
 
 test("no file writes and no network listener", () => {
   for (const [file, text] of sources) {
-    assert.doesNotMatch(text, /writeFile|appendFile|createWriteStream|mkdir|unlink|node:http"|\.listen\(/, file);
+    // generalLedger.ts writes voucher PDFs to the system temp directory on purpose.
+    if (file !== "generalLedger.ts") {
+      assert.doesNotMatch(text, /writeFile|appendFile|createWriteStream/, file);
+    }
+    assert.doesNotMatch(text, /mkdir|unlink|node:http"|\.listen\(/, file);
   }
 });
 

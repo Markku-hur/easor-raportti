@@ -5,6 +5,10 @@
  * Uses the organization's "GL_FI" credentials, see .env.example.
  */
 
+import { tmpdir } from "node:os";
+import { writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { spawn } from "node:child_process";
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { credentialsFor, easorGet, fiBasePath, GatewayError } from "./httpClient.js";
@@ -223,8 +227,19 @@ export function registerGeneralLedgerTools(server: McpServer): void {
       if (pdfBuffer.length > MAX_VOUCHER_IMAGE_SIZE) {
         return { isError: true as const, content: [{ type: "text" as const, text: `Tositteen ${voucherId} kuva on liian suuri (${(pdfBuffer.length / 1024 / 1024).toFixed(1)} Mt). Enimmäiskoko on 5 Mt.` }] };
       }
+      const tmpPath = join(tmpdir(), `easor-voucher-${voucherId}.pdf`);
+      await writeFile(tmpPath, pdfBuffer);
+      const opener =
+        process.platform === "win32" ? ["cmd", ["/c", "start", "", tmpPath]] :
+        process.platform === "darwin" ? ["open", [tmpPath]] :
+        ["xdg-open", [tmpPath]];
+      spawn(opener[0] as string, opener[1] as string[], { detached: true, stdio: "ignore" }).unref();
       return {
         content: [
+          {
+            type: "text" as const,
+            text: `Tositteen kuva avattu: ${tmpPath}`,
+          },
           {
             type: "resource" as const,
             resource: {
