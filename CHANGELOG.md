@@ -15,3 +15,6 @@ Kaikki merkittävät muutokset dokumentoidaan tähän tiedostoon.
 - Seurantakohderajaus (kustannuspaikka, projekti jne.)
 - Myyntilaskuosio: kuukausikehitys, tilat, erääntyneet
 - MIT-lisenssi
+- `CONTRIBUTING.md` – osallistumisohje
+- `CODE_OF_CONDUCT.md` – käytännesäännöt
+- `SECURITY.md` – tietoturvakäytäntö
