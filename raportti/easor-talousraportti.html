@@ -32,6 +32,19 @@ h2{font-weight:400;font-size:19px;margin:0}
 .controls label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
 .controls select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;max-width:16em}
 .controls select:disabled{opacity:.6}
+/* org combo box */
+.orgcombo{display:grid;gap:4px;font-size:13px;color:var(--muted);position:relative}
+.orgcombo-wrap{position:relative}
+.orgcombo-input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:16em;box-sizing:border-box}
+.orgcombo-input::placeholder{color:var(--muted)}
+.orgcombo-input:disabled{opacity:.6}
+.orgcombo-input[aria-invalid="true"]{border-color:#c0392b}
+.orgcombo-drop{position:absolute;top:100%;left:0;margin-top:6px;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(10,25,20,.18);overflow:hidden;min-width:min(300px,calc(100vw - 32px));max-height:280px;overflow-y:auto}
+.orgcombo-drop[hidden]{display:none}
+.orgcombo-opt{padding:9px 14px;cursor:pointer;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.orgcombo-opt:hover,.orgcombo-opt[aria-selected="true"]{background:var(--hover)}
+.orgcombo-opt.empty{color:var(--muted);font-size:14px;cursor:default}
+/* multi-select (seurantakohteet) */
 .ms{position:relative;display:grid;gap:4px;font-size:13px;color:var(--muted)}
 .msbtn{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 30px 8px 10px;min-width:12em;max-width:18em;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}
 .msbtn::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:translateY(-70%) rotate(45deg)}
@@ -48,7 +61,7 @@ button.link{background:none;color:var(--s1);padding:0;font-size:14px;border-radi
 .mslist .sep{border-top:1px solid var(--line);margin:4px 0}
 .chip{display:inline-block;background:var(--accent);color:#0A1914;border-radius:999px;padding:2px 10px;font-size:13px}
 .controls input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
-#org{width:13em} #month{width:11em}
+#month{width:11em}
 button{font:inherit;font-size:16px;border:0;border-radius:10px;padding:9px 18px;background:var(--btn);color:var(--btnink);cursor:pointer}
 button:disabled{opacity:.5;cursor:default}
 button:focus-visible,input:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
@@ -89,6 +102,35 @@ tr.sum td{font-weight:500;border-top:1px solid var(--muted)}
 .cc tr.pct td{color:var(--ink2);border-bottom:0}
 .cc td.tot,.cc th.tot{font-weight:500}
 .loading .val,.loading .chart,.loading .tbl{opacity:.45;transition:opacity .2s}
+/* margin pct rows */
+tr.margin-pct td{color:var(--ink2);font-size:13px;border-bottom:0;padding-block:3px}
+/* drill-down */
+.drill-btn{background:none;border:0;padding:2px 4px 2px 0;font:inherit;color:inherit;text-align:left;width:100%;cursor:pointer;display:inline-flex;align-items:center;gap:5px;border-radius:4px;line-height:inherit}
+.drill-btn::before{content:"▶";font-size:9px;color:var(--muted);flex:none;transition:transform .15s;margin-right:1px}
+.drill-btn[aria-expanded="true"]::before{transform:rotate(90deg)}
+.drill-btn:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+tr.drill-row>td{padding:0;border-bottom:0}
+tr.drill-row[hidden]{display:none}
+.drill-inner{padding:4px 0 8px}
+.drill-inner table{font-size:13px}
+.drill-inner th,.drill-inner td{padding:5px 8px}
+.drill-acc-td{padding-left:28px !important}
+.drill-vch-td{padding-left:48px !important;color:var(--ink2) !important;white-space:normal !important;min-width:0 !important}
+.vch-btn{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--s1);cursor:pointer;border-radius:4px;text-decoration:underline;text-underline-offset:2px}
+.vch-btn:disabled{color:var(--muted);text-decoration:none;cursor:default}
+.diff-note{font-size:12px;color:var(--muted);padding:4px 8px 4px 28px;display:block}
+.cc td.clickable{cursor:pointer}
+.cc td.clickable:hover{background:var(--hover)}
+/* PDF modal */
+.pdfmodal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55)}
+.pdfmodal[hidden]{display:none}
+.pdfmodal-box{background:var(--card);border-radius:16px;padding:16px;width:min(960px,calc(100vw - 32px));height:min(90vh,820px);display:grid;grid-template-rows:auto 1fr;gap:12px}
+.pdfmodal-hd{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.pdfmodal-hd h3{margin:0;font-weight:400;font-size:17px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pdfclose{background:none;border:0;font-size:24px;color:var(--muted);cursor:pointer;padding:0 4px;line-height:1;flex:none}
+.pdfclose:hover{color:var(--ink)}
+.pdfframe{width:100%;height:100%;border:0;border-radius:8px;background:var(--bg)}
+.pdfmsg{padding:24px;color:var(--muted);font-size:15px}
 </style>
 
 <div class="wrap">
@@ -100,7 +142,15 @@ tr.sum td{font-weight:500;border-top:1px solid var(--muted)}
   </header>
 
   <form class="controls" id="form">
-    <label for="org">Organisaationumero<input id="org" type="text" inputmode="numeric" pattern="[0-9]+" autocomplete="off" list="orgList" placeholder="Valitse tai kirjoita" required><datalist id="orgList"></datalist></label>
+    <div class="orgcombo" id="orgCombo">
+      <span>Yritys</span>
+      <div class="orgcombo-wrap">
+        <input id="orgInput" type="text" class="orgcombo-input" placeholder="Hae nimellä tai numerolla" autocomplete="off"
+          role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-controls="orgDrop" aria-autocomplete="list">
+        <div id="orgDrop" class="orgcombo-drop" role="listbox" hidden></div>
+      </div>
+      <input type="hidden" id="org">
+    </div>
     <label for="month">Kausi päättyy (kuukausi)<input id="month" type="month" required></label>
     <label for="dimType">Seurantakohde<select id="dimType"><option value="">Ei rajausta</option></select></label>
     <div class="ms" id="dimMs"><span class="mslbl" id="dimValLbl">Arvot</span>
@@ -194,6 +244,17 @@ tr.sum td{font-weight:500;border-top:1px solid var(--muted)}
   <p class="foot">Lähde: Easor (tuloslaskelma ja tase lasketaan Easorin raporttityökaluilla, myyntilaskut Easorin laskutuksesta, vain lukuoikeus). Vertailu on sama kausi edellisenä vuonna. Tase vertailuun: edellisen tilikauden viimeinen päivä.</p>
 </div>
 
+<!-- PDF viewer modal -->
+<div class="pdfmodal" id="pdfModal" hidden role="dialog" aria-modal="true" aria-labelledby="pdfModalTitle">
+  <div class="pdfmodal-box">
+    <div class="pdfmodal-hd">
+      <h3 id="pdfModalTitle">Tosite</h3>
+      <button class="pdfclose" id="pdfClose" aria-label="Sulje PDF-näkymä">×</button>
+    </div>
+    <iframe class="pdfframe" id="pdfFrame" title="Tositteen kuva" src="about:blank"></iframe>
+  </div>
+</div>
+
 <script>
 (() => {
 const SERVER = "host:easor";
@@ -214,19 +275,12 @@ const dayBefore = (s) => new Date(Date.parse(s+"T12:00:00Z")-864e5).toISOString(
 const startLocal = (iso) => new Date(Date.parse(iso)+12*36e5).toISOString().slice(0,10);
 const endLocal = (iso) => new Date(Date.parse(iso)-12*36e5).toISOString().slice(0,10);
 
-// remembered inputs (per viewer convenience only)
-try { const s = JSON.parse(localStorage.getItem("easorRaportti")||"{}"); if (s.org) $("org").value = s.org; if (s.month) $("month").value = s.month; } catch {}
-if (!$("month").value) { const t = new Date(); t.setDate(1); t.setMonth(t.getMonth()-1); $("month").value = `${t.getFullYear()}-${pad(t.getMonth()+1)}`; }
-
+// --- rate-limited call wrapper ------------------------------------------------
 let mcp = null;
 const ready = (window.claude?.use ? window.claude.use("mcp") : Promise.resolve(null)).then(m => (mcp = m)).catch(() => null);
-
 class Fail extends Error { constructor(code,msg){ super(msg); this.code = code; } }
-// Claude Desktop allows a page 30 local tool calls a minute and 8 at a time, so calls are paced below that.
 const BUDGET = 26, REFILL_PER_MS = 28/60e3, MAX_IN_FLIGHT = 6, MEMO_MS = 5*60e3;
 let tokens = BUDGET, tokensAt = Date.now(), inFlight = 0, oldestFetch = null;
-// The Claude app keeps fetched results per viewer for up to 7 days. A normal search reuses
-// them for 5 minutes; reopening the page shows the last report from them without asking Easor.
 const KEEP_MS = 7*24*36e5;
 let restoring = false;
 const waiting = [], memo = new Map(), sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -244,7 +298,6 @@ async function call(tool, input){
   const key = tool + JSON.stringify(input), hit = memo.get(key);
   if (hit && Date.now()-hit.at < MEMO_MS){ if (oldestFetch === null || hit.at < oldestFetch) oldestFetch = hit.at; return hit.payload; }
   for (let attempt = 0; ; attempt++){
-    // Restoring reads the app's stored results, so it is not paced; anything missing still runs.
     const paced = !restoring || attempt > 0;
     if (paced) await slot();
     try {
@@ -270,7 +323,7 @@ async function pool(tasks, n, onDone){
 function errorText(e){
   switch (e.code){
     case "no_mcp": case "server_not_connected": case "not_granted": case "capability_disabled": case "capability_removed":
-      return null; // handled by no-host notice
+      return null;
     case "not_in_manifest": return "Easor-yhteys on estetty tältä sivulta. Salli Easor sivun käyttöoikeuksista ja yritä uudelleen.";
     case "approval_required": case "cancelled": return "Haku tarvitsee hyväksyntäsi. Paina Hae luvut ja hyväksy kysely sovelluksessa.";
     case "blocked_by_policy": return "Organisaatiosi asetukset estävät Easor-työkalun käytön.";
@@ -347,7 +400,7 @@ function bars(box, labels, a, b, names){
   box.appendChild(svg);
   const tip = el("div",{class:"tip"}); box.appendChild(tip);
   hits.forEach(([r,i])=>{
-    svg.appendChild(r); // keep hit targets on top
+    svg.appendChild(r);
     r.addEventListener("mousemove",e=>{ tip.replaceChildren(el("b",{},labels[i]+"kuu"), el("br"), document.createTextNode(`${names[0]}: ${eur(a[i])}`), el("br"), document.createTextNode(`${names[1]}: ${b[i]==null?"—":eur(b[i])}`));
       const bx=box.getBoundingClientRect(); let x=e.clientX-bx.left+12; if (x>bx.width-180) x-=200; tip.style.left=x+"px"; tip.style.top=(e.clientY-bx.top-24)+"px"; tip.style.opacity=1; r.style.fill="var(--hover)"; });
     r.addEventListener("mouseleave",()=>{ tip.style.opacity=0; r.style.fill="transparent"; });
@@ -361,6 +414,50 @@ function monthTable(labels, a, b, names){
 const line = (pl, name) => pl?.tuloslaskelma?.children?.find(c => c.name === name)?.amount ?? 0;
 const ebit = (pl) => { const c = pl?.tuloslaskelma?.children?.find(c => /^LIIKEVOITTO/.test(c.name)); return c ? c.amount : (pl?.tuloslaskelma?.amount ?? 0); };
 const findBs = (bs, side, name) => { let hit; (function walk(n){ (n?.children||[]).forEach(c=>{ if (c.name===name && hit===undefined) hit=c.amount; walk(c); }); })(bs?.[side]); return hit; };
+
+// --- margin calculations --------------------------------------------------
+const MK_LINES = ["LIIKEVAIHTO","Valmiiden ja keskeneräisten tuotteiden varastojen muutos","Valmistus omaan käyttöön","Liiketoiminnan muut tuotot","Materiaalit ja palvelut"];
+const KK_EXTRA = ["Henkilöstökulut","Liiketoiminnan muut kulut"];
+function computeMargins(pl){
+  if (!pl) return null;
+  const mk = MK_LINES.reduce((s,n) => s + line(pl,n), 0);
+  const kk = mk + KK_EXTRA.reduce((s,n) => s + line(pl,n), 0);
+  return {mk, kk};
+}
+const r2 = (x) => Math.round(x*100)/100;
+
+// Reorder merged PL rows: move "Liiketoiminnan muut kulut" before "Poistot",
+// then inject MYYNTIKATE after "Materiaalit ja palvelut" section and
+// KÄYTTÖKATE after "Liiketoiminnan muut kulut" section.
+function buildPLRows(mergedRows, marginsC, marginsP){
+  // Split into sections: each section = depth-0 row + its deeper children
+  const sects = [];
+  for (const r of mergedRows){
+    if (r.depth === 0 || !sects.length) sects.push([r]);
+    else sects[sects.length-1].push(r);
+  }
+  // Find sections by name
+  const idx = (name) => sects.findIndex(s => s[0]?.name === name);
+  const muutKuluI = idx("Liiketoiminnan muut kulut");
+  const poistotI = idx("Poistot ja arvonalentumiset");
+  // Move muut kulut before poistot if currently after
+  if (muutKuluI > poistotI && muutKuluI !== -1 && poistotI !== -1){
+    const [muut] = sects.splice(muutKuluI, 1);
+    const newPoistotI = sects.findIndex(s => s[0]?.name === "Poistot ja arvonalentumiset");
+    sects.splice(newPoistotI, 0, muut);
+  }
+  // Build subtotal rows
+  const mkRow = {key:"/_MYYNTIKATE", name:"MYYNTIKATE", depth:0, cur: marginsC ? r2(marginsC.mk) : 0,
+    prev: marginsP !== null ? r2(marginsP.mk) : undefined, sub:true, _margin:"mk"};
+  const kkRow = {key:"/_KÄYTTÖKATE", name:"KÄYTTÖKATE", depth:0, cur: marginsC ? r2(marginsC.kk) : 0,
+    prev: marginsP !== null ? r2(marginsP.kk) : undefined, sub:true, _margin:"kk"};
+  // Insert margin sections
+  const matPalFinalI = sects.findIndex(s => s[0]?.name === "Materiaalit ja palvelut");
+  if (matPalFinalI !== -1) sects.splice(matPalFinalI + 1, 0, [mkRow]);
+  const muutKuluFinalI = sects.findIndex(s => s[0]?.name === "Liiketoiminnan muut kulut");
+  if (muutKuluFinalI !== -1) sects.splice(muutKuluFinalI + 1, 0, [kkRow]);
+  return sects.flat();
+}
 
 // --- tracking dimensions (seurantakohteet) ----------------------------------
 const DIM_FIELD = {CostCenter:"costCenter", CostType:"costType", Project:"project", ProjectType:"projectType"};
@@ -378,12 +475,11 @@ function loadDims(org){
     try {
       const s = await call("get_dimension_settings",{organizationNumber:org});
       (Array.isArray(s)?s:[]).filter(d=>d.isEnabled && DIM_FIELD[d.dimensionType]).forEach(d=>{ dimNames[d.dimensionType] = d.name || DIM_FI[d.dimensionType]; t.appendChild(opt(d.dimensionType, dimNames[d.dimensionType])); });
-    } catch { dimOrg = null; /* filters stay unavailable; the report still works */ }
+    } catch { dimOrg = null; }
   })();
 }
-// Multi-select of dimension values: a button that opens a checkbox list.
-let dimItems = [];               // [{code,text}] for the chosen dimension type
-const dimSel = new Set();        // selected codes ("__none__" = rows without a value)
+let dimItems = [];
+const dimSel = new Set();
 function msButtonText(){
   const b = $("dimVal");
   if (!dimItems.length) return;
@@ -444,7 +540,120 @@ function currentDim(){
   const label = names.length <= 3 ? names.join(", ") : `${names.length} valittua (${chosen.map(d => d.code === "__none__" ? "ei arvoa" : d.code).join(", ")})`;
   return {type, codes:new Set(dimSel), label:`${dimNames[type]||DIM_FI[type]}: ${label}`};
 }
-// One call fetches the whole template, so a report does not spend a call per account.
+
+// --- Org combo box -----------------------------------------------------------
+let orgOptions = []; // [{num, label, name}]
+let orgFallback = false; // true if list load failed → allow free numeric entry
+
+function orgSetValue(num, label){
+  $("org").value = num ? String(num) : "";
+  $("orgInput").value = label || (num ? String(num) : "");
+  $("orgInput").setAttribute("aria-invalid", "false");
+}
+function orgOpenDrop(){
+  const drop = $("orgDrop");
+  renderOrgDrop($("orgInput").value);
+  drop.hidden = false;
+  $("orgInput").setAttribute("aria-expanded","true");
+}
+function orgCloseDrop(){
+  $("orgDrop").hidden = true;
+  $("orgInput").setAttribute("aria-expanded","false");
+}
+function renderOrgDrop(query){
+  const q = String(query).trim().toLowerCase();
+  const drop = $("orgDrop");
+  const matches = orgOptions.filter(o => !q || o.label.toLowerCase().includes(q) || String(o.num).includes(q));
+  if (!matches.length){
+    drop.replaceChildren(el("div",{class:"orgcombo-opt empty"}, orgOptions.length ? "Ei osumia." : "Ei yrityksiä saatavilla."));
+    return;
+  }
+  drop.replaceChildren(...matches.map(o => {
+    const d = el("div",{class:"orgcombo-opt",role:"option","data-num":String(o.num)}, o.label);
+    if (String(o.num) === $("org").value) d.setAttribute("aria-selected","true");
+    d.addEventListener("mousedown", e => { e.preventDefault(); orgSetValue(o.num, o.label); orgCloseDrop(); loadDims(o.num); });
+    return d;
+  }));
+}
+
+$("orgInput").addEventListener("focus", () => { if (orgOptions.length || orgFallback) orgOpenDrop(); });
+$("orgInput").addEventListener("input", () => {
+  // Clear selection when user types
+  $("org").value = "";
+  $("orgInput").setAttribute("aria-invalid","false");
+  if (orgFallback){
+    // Fallback mode: treat typed number as the org
+    const n = parseInt($("orgInput").value, 10);
+    if (n > 0) $("org").value = String(n);
+  }
+  renderOrgDrop($("orgInput").value);
+  $("orgDrop").hidden = false;
+  $("orgInput").setAttribute("aria-expanded","true");
+});
+$("orgInput").addEventListener("blur", () => {
+  setTimeout(() => {
+    orgCloseDrop();
+    // If nothing selected and not fallback, check if the input matches a known org
+    if (!$("org").value && !orgFallback){
+      $("orgInput").setAttribute("aria-invalid", $("orgInput").value ? "true" : "false");
+    }
+    if (!$("org").value && orgFallback){
+      const n = parseInt($("orgInput").value, 10);
+      if (n > 0) $("org").value = String(n);
+    }
+  }, 150);
+});
+$("orgInput").addEventListener("keydown", e => {
+  const drop = $("orgDrop");
+  if (e.key === "Escape"){ orgCloseDrop(); return; }
+  if (e.key === "Enter"){
+    const sel = drop.querySelector(".orgcombo-opt[aria-selected='true']") || drop.querySelector(".orgcombo-opt:not(.empty)");
+    if (sel && !drop.hidden){ e.preventDefault(); sel.dispatchEvent(new MouseEvent("mousedown")); }
+    return;
+  }
+  if (e.key === "ArrowDown" || e.key === "ArrowUp"){
+    e.preventDefault();
+    if (drop.hidden){ orgOpenDrop(); return; }
+    const opts = [...drop.querySelectorAll(".orgcombo-opt:not(.empty)")];
+    const cur = opts.findIndex(o => o.getAttribute("aria-selected") === "true");
+    opts.forEach(o => o.removeAttribute("aria-selected"));
+    const next = e.key === "ArrowDown" ? Math.min(opts.length-1, cur+1) : Math.max(0, cur-1);
+    if (opts[next]) { opts[next].setAttribute("aria-selected","true"); opts[next].scrollIntoView({block:"nearest"}); }
+  }
+});
+document.addEventListener("click", e => { if (!$("orgCombo").contains(e.target)) orgCloseDrop(); });
+
+async function loadOrgList(){
+  try {
+    const r = await call("list_configured_organizations",{});
+    const orgs = r?.organizations || [];
+    orgOptions = orgs.map(o => {
+      const name = o.name || null;
+      const label = name ? `${name} (${o.organizationNumber})` : String(o.organizationNumber);
+      return {num: o.organizationNumber, label, name};
+    });
+    // If org already set from localStorage, update display
+    const existing = parseInt($("org").value, 10);
+    if (existing){
+      const match = orgOptions.find(o => o.num === existing);
+      if (match) $("orgInput").value = match.label;
+    }
+    // Auto-select if exactly one org
+    if (!existing && orgOptions.length === 1){
+      orgSetValue(orgOptions[0].num, orgOptions[0].label);
+      loadDims(orgOptions[0].num);
+    }
+  } catch {
+    // Fallback: allow typing org number directly
+    orgFallback = true;
+    $("orgInput").placeholder = "Kirjoita organisaationumero";
+    $("orgInput").inputMode = "numeric";
+    const existing = parseInt($("org").value, 10);
+    if (existing) $("orgInput").value = String(existing);
+  }
+}
+
+// --- template groups (cached) -----------------------------------------------
 let tplGroups = null;
 async function templateGroups(){
   if (!tplGroups){
@@ -453,8 +662,9 @@ async function templateGroups(){
   }
   return tplGroups;
 }
-const r2 = (x) => Math.round(x*100)/100;
-// The statutory order of Easor's own report (api-mcp data/report-formula-fi.json), by reportingGroup.
+
+// --- PL form (used by plFromRows for cost-center and dimension-filtered PL) --
+// Liiketoiminnan muut kulut is placed before Poistot per statutory display order.
 const SUBTOTAL = (name) => ({name, subtotal:true});
 const PL_FORM = [
   {name:"LIIKEVAIHTO", groups:["LIIKEVAIHTO"]},
@@ -462,9 +672,11 @@ const PL_FORM = [
   {name:"Valmistus omaan käyttöön", groups:["Valmistus omaan käyttöön"]},
   {name:"Liiketoiminnan muut tuotot", groups:["Liiketoiminnan muut tuotot"]},
   {name:"Materiaalit ja palvelut", children:["Ostot tilikauden aikana","Varastojen muutos","Ulkopuoliset palvelut"]},
+  SUBTOTAL("MYYNTIKATE"),
   {name:"Henkilöstökulut", children:["Palkat ja palkkiot","Eläkekulut","Muut henkilösivukulut"]},
-  {name:"Poistot ja arvonalentumiset", children:["Suunnitelman mukaiset poistot","Konserniliikearvon poisto ja konsernireservin vähennys","Arvonalentumiset pysyvien vastaavien hyödykkeistä","Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"]},
   {name:"Liiketoiminnan muut kulut", groups:["Liiketoiminnan muut kulut"]},
+  SUBTOTAL("KÄYTTÖKATE"),
+  {name:"Poistot ja arvonalentumiset", children:["Suunnitelman mukaiset poistot","Konserniliikearvon poisto ja konsernireservin vähennys","Arvonalentumiset pysyvien vastaavien hyödykkeistä","Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"]},
   {name:"Osuus osakkuusyritysten voitosta(tappiosta)", groups:["Osuus osakkuusyritysten voitosta(tappiosta)"]},
   SUBTOTAL("LIIKEVOITTO(-TAPPIO)"),
   {name:"Rahoitustuotot ja -kulut", children:["Tuotot osuuksista saman konsernin yrityksissä","Tuotot osuuksista omistusyhteysyrityksissä","Saman konsernin yrityksiltä","Muilta","Arvonalentumiset pysyvien vastaavien sijoituksista","Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista","Saman konsernin yrityksille","Muille"]},
@@ -476,16 +688,31 @@ const PL_FORM = [
   SUBTOTAL("TILIKAUDEN VOITTO(TAPPIO)")
 ];
 const IN_FORM = new Set(PL_FORM.flatMap(l => l.groups || l.children || []));
+
+// Return reporting groups for a named P&L row (for drill-down account lookup)
+function reportingGroupsFor(name){
+  for (const l of PL_FORM){
+    if (l.subtotal) continue;
+    if (l.name === name) return l.groups || l.children || [name];
+    if (l.children && l.children.includes(name)) return [name];
+  }
+  return [name];
+}
+
 function plFromRows(rows, groups, names){
   const g = new Map(), unc = new Map();
   rows.forEach(x => { const n = String(x.accountNumber), amt = -(x.credit ?? x.debet ?? 0), grp = groups.get(n);
     if (!grp){ unc.set(n,(unc.get(n)||0)+amt); return; }
-    if (IN_FORM.has(grp)) g.set(grp,(g.get(grp)||0)+amt); // like Easor's report, the closing accounts 9998-9999 are not a line
+    if (IN_FORM.has(grp)) g.set(grp,(g.get(grp)||0)+amt);
   });
   const has = (name) => g.has(name), amt = (name) => g.get(name) || 0;
   const out = []; let running = 0;
   PL_FORM.forEach(l => {
-    if (l.subtotal){ out.push({name:l.name, amount:r2(running), isSubtotal:true}); return; }
+    if (l.subtotal){
+      out.push({name:l.name, amount:r2(running), isSubtotal:true,
+        _margin: l.name==="MYYNTIKATE"?"mk": l.name==="KÄYTTÖKATE"?"kk":null});
+      return;
+    }
     if (l.children){
       const kids = l.children.filter(has); if (!kids.length) return;
       const sum = kids.reduce((a,k)=>a+amt(k),0); running += sum;
@@ -496,9 +723,8 @@ function plFromRows(rows, groups, names){
   });
   return {tuloslaskelma:{name:"TULOSLASKELMA", amount:r2(running), children:out}, unclassifiedAccounts:[...unc].map(([n,a])=>({number:n, name:names.get(n)||"", amount:r2(a)}))};
 }
+
 const MAX_PAGES = 100, PAGE = 200;
-// Income-statement postings (accounts 3000-9999) of a period, shared by the dimension filter
-// and the cost-center table. Identical calls are answered once.
 const ledgerCache = new Map();
 function fetchLedger(org, from, to){
   const key = `${org}|${from}|${to}`;
@@ -527,24 +753,228 @@ async function ledgerPL(org, from, to, dim){
   return { total: plFromRows(sel, groups, names), month: (y,m) => plFromRows(byMonth.get(`${y}-${pad(m)}`)||[], groups, names), truncated, count: sel.length };
 }
 $("dimType").addEventListener("change", loadDimValues);
-$("org").addEventListener("change", () => { const o = parseInt($("org").value,10); if (o) loadDims(o); });
 
-// --- organizations with credentials in the server's .env --------------------
-// Suggestions only: any number can still be typed, e.g. one covered by shared credentials.
-async function loadOrgList(){
+// --- PDF modal ---------------------------------------------------------------
+$("pdfClose").addEventListener("click", closePdfModal);
+$("pdfModal").addEventListener("click", e => { if (e.target === $("pdfModal")) closePdfModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("pdfModal").hidden) closePdfModal(); });
+function closePdfModal(){
+  $("pdfModal").hidden = true;
+  $("pdfFrame").src = "about:blank";
+}
+function showPdfModal(src, title, msg){
+  $("pdfModalTitle").textContent = title || "Tosite";
+  if (src){
+    $("pdfFrame").src = src;
+    $("pdfFrame").style.display = "";
+    $("pdfModal").querySelector(".pdfmsg")?.remove();
+  } else {
+    $("pdfFrame").src = "about:blank";
+    $("pdfFrame").style.display = "none";
+    const p = el("p",{class:"pdfmsg"}, msg || "Ei kuvaa saatavilla.");
+    $("pdfModal").querySelector(".pdfmodal-box").appendChild(p);
+  }
+  $("pdfModal").hidden = false;
+  $("pdfClose").focus();
+}
+async function openVoucherPdf(btn, org, voucherId, voucherNumber){
+  btn.disabled = true;
   try {
-    const r = await call("list_configured_organizations",{});
-    const orgs = r?.organizations || [];
-    $("orgList").replaceChildren(...orgs.map(o =>
-      opt(String(o.organizationNumber), `${o.name || "Nimi ei saatavilla"}${o.businessId ? " (" + o.businessId + ")" : ""}`)));
-    if (!$("org").value && orgs.length === 1) { $("org").value = String(orgs[0].organizationNumber); loadDims(orgs[0].organizationNumber); }
-  } catch { /* an older server without the tool: typing the number still works */ }
+    const r = await call("get_voucher_image",{organizationNumber:org, voucherId, openFile:false});
+    if (r?.image === null){
+      showPdfModal(null, `Tosite ${voucherNumber || voucherId}`, "Muistiovienneillä ei ole kuvaa.");
+    } else if (r?.base64){
+      showPdfModal(`data:application/pdf;base64,${r.base64}`, `Tosite ${voucherNumber || voucherId}`);
+    } else {
+      showPdfModal(null, `Tosite ${voucherNumber || voucherId}`, "Kuvaa ei saatu.");
+    }
+  } catch(e){
+    showPdfModal(null, `Tosite ${voucherNumber || voucherId}`, "Virhe: " + (errorText(e) || String(e)));
+  } finally { btn.disabled = false; }
+}
+
+// --- Drill-down helpers ------------------------------------------------------
+
+// Toggle account drill (show/hide vouchers under an account row)
+function toggleAccountDrill(accBtn, accRows, org, table, accTr, isCostCenter){
+  const expanded = accBtn.getAttribute("aria-expanded") === "true";
+  accBtn.setAttribute("aria-expanded", String(!expanded));
+  if (expanded){
+    if (accBtn._drillTr){ accBtn._drillTr.remove(); accBtn._drillTr = null; }
+    return;
+  }
+  const colCount = accTr.cells.length;
+  const drillTr = el("tr",{class:"drill-row"});
+  const drillTd = el("td",{colspan:String(colCount)});
+  drillTr.appendChild(drillTd);
+
+  const sorted = [...accRows].sort((a,b) => (b.voucherDate||"").localeCompare(a.voucherDate||""));
+  const inner = el("div",{class:"drill-inner"});
+  const vt = el("table");
+  inner.appendChild(vt);
+
+  function addVRow(x){
+    const tr = el("tr");
+    tr.appendChild(el("td",{class:"drill-vch-td"}, x.voucherDate ? fiDate(x.voucherDate) : "—"));
+    const numTd = el("td",{class:"drill-vch-td"});
+    if (x.voucherId){
+      const btn = el("button",{class:"vch-btn"}, x.voucherNumber || "—");
+      btn.addEventListener("click", () => openVoucherPdf(btn, org, x.voucherId, x.voucherNumber));
+      numTd.appendChild(btn);
+    } else { numTd.textContent = x.voucherNumber || "—"; }
+    tr.appendChild(numTd);
+    tr.appendChild(el("td",{class:"drill-vch-td",style:"white-space:normal;min-width:120px"}, x.description || x.voucherDescription || "—"));
+    tr.appendChild(el("td",{}, eur(-(x.credit ?? x.debet ?? 0))));
+    if (isCostCenter) tr.appendChild(el("td",{}, x.costCenter || ""));
+    vt.appendChild(tr);
+  }
+
+  sorted.slice(0,100).forEach(addVRow);
+  if (sorted.length > 100){
+    const moreTr = el("tr");
+    const moreTd = el("td",{colspan:"4",class:"drill-vch-td"});
+    const moreBtn = el("button",{class:"link"}, `Näytä lisää (${sorted.length-100} kpl)`);
+    moreBtn.addEventListener("click", () => { sorted.slice(100).forEach(addVRow); moreTr.remove(); });
+    moreTd.appendChild(moreBtn); moreTr.appendChild(moreTd); vt.appendChild(moreTr);
+  }
+
+  drillTd.appendChild(inner);
+  accTr.after(drillTr);
+  accBtn._drillTr = drillTr;
+}
+
+// Toggle PL row drill (show/hide accounts under a P&L row)
+async function togglePLDrill(drillBtn, rowName, rowAmt, org, fromDate, toDate, table, parentTr, isCostCenter, ccCode){
+  const expanded = drillBtn.getAttribute("aria-expanded") === "true";
+  drillBtn.setAttribute("aria-expanded", String(!expanded));
+  // If collapsing, remove existing drill row
+  if (expanded){
+    if (drillBtn._drillTr){ drillBtn._drillTr.remove(); drillBtn._drillTr = null; }
+    return;
+  }
+  // Build drill row
+  const colCount = parentTr.cells.length;
+  const drillTr = el("tr",{class:"drill-row"});
+  const drillTd = el("td",{colspan:String(colCount)});
+  drillTr.appendChild(drillTd);
+  parentTr.after(drillTr);
+  drillBtn._drillTr = drillTr;
+  drillTd.textContent = "Haetaan…";
+
+  try {
+    const [ledger, groups] = await Promise.all([fetchLedger(org, fromDate, toDate), templateGroups()]);
+    const rgs = new Set(reportingGroupsFor(rowName));
+
+    // Filter rows to this P&L row (and optionally a CC code)
+    let relevant = ledger.rows.filter(x => rgs.has(groups.get(String(x.accountNumber))));
+    if (isCostCenter && ccCode !== undefined){
+      relevant = relevant.filter(x => String(x.costCenter ?? "").trim() === ccCode);
+    }
+
+    // Group by account
+    const byAcc = new Map();
+    relevant.forEach(x => {
+      const acc = String(x.accountNumber);
+      if (!byAcc.has(acc)) byAcc.set(acc, []);
+      byAcc.get(acc).push(x);
+    });
+    const accList = [...byAcc.entries()].sort((a,b) => a[0].localeCompare(b[0],"fi",{numeric:true}));
+
+    drillTd.replaceChildren();
+    if (!accList.length){
+      drillTd.appendChild(el("span",{class:"diff-note"}, "Ei vientejä tältä jaksolta."));
+      return;
+    }
+
+    const inner = el("div",{class:"drill-inner"});
+    const t = el("table");
+    inner.appendChild(t);
+
+    // Check sum mismatch: sum of accounts vs reported row amount
+    const accTotal = accList.reduce((s,[,rows]) => s + rows.reduce((ss,x) => ss + (-(x.credit ?? x.debet ?? 0)),0), 0);
+
+    accList.forEach(([acc, accRows]) => {
+      const accSum = accRows.reduce((s,x) => s + (-(x.credit ?? x.debet ?? 0)), 0);
+      const accName = ledger.names.get(acc) || "";
+      const accTr = el("tr");
+      const accTd = el("td",{class:"drill-acc-td"});
+      const accBtn = el("button",{class:"drill-btn","aria-expanded":"false"});
+      accBtn.appendChild(document.createTextNode(`${acc} ${accName}`.trim()));
+      accBtn.addEventListener("click", () => toggleAccountDrill(accBtn, accRows, org, t, accTr, isCostCenter));
+      accTd.appendChild(accBtn);
+      accTr.appendChild(accTd);
+      accTr.appendChild(el("td",{}, eur(r2(accSum))));
+      for (let i = 2; i < colCount; i++) accTr.appendChild(el("td",{},""));
+      t.appendChild(accTr);
+    });
+
+    drillTd.appendChild(inner);
+
+    // Mismatch note (compare account sum to the row's reported amount)
+    if (rowAmt !== null && rowAmt !== undefined && Math.abs(r2(accTotal) - rowAmt) > 0.02){
+      const diff = r2(accTotal) - rowAmt;
+      drillTd.appendChild(el("span",{class:"diff-note"}, `Tilien summa poikkeaa rivin summasta ${eur(diff)} (luokittelemattomat tilit voivat selittää eron).`));
+    }
+  } catch(e){
+    drillTd.textContent = "Vientejä ei saatu: " + (errorText(e) || String(e));
+  }
+}
+
+// Render an interactive P&L table with drill-down
+function renderPl(container, rows, heads, withDelta, org, fromDate, toDate){
+  const revRow = rows.find(r => r.name === "LIIKEVAIHTO");
+  const revC = revRow?.cur ?? 0;
+  const revP = revRow?.prev ?? null;
+
+  const t = el("table");
+  const hr = el("tr");
+  ["",...heads,...(withDelta?["Muutos"]:[])].forEach(h => hr.appendChild(el("th",{},h)));
+  t.appendChild(hr);
+
+  rows.forEach(r => {
+    const isSumRow = r.sub || (r.depth===0 && /^[A-ZÅÄÖ ()\-]+$/.test(r.name));
+    const tr = el("tr", isSumRow ? {class:"sum"} : {});
+
+    const td = el("td");
+    td.style.paddingLeft = (8 + r.depth*16) + "px";
+    if (r.depth) td.style.color = "var(--ink2)";
+
+    // Margin subtotals and plain subtotals are not expandable
+    const canDrill = !r._margin && !r.sub && !r.subtotal && org && fromDate;
+    if (canDrill){
+      const btn = el("button",{class:"drill-btn","aria-expanded":"false"});
+      btn.appendChild(document.createTextNode(r.name));
+      btn.addEventListener("click", () => togglePLDrill(btn, r.name, r.cur, org, fromDate, toDate, t, tr, false, undefined));
+      td.appendChild(btn);
+    } else {
+      td.textContent = r.name;
+    }
+    tr.appendChild(td);
+
+    tr.appendChild(el("td",{}, eur(r.cur ?? 0)));
+    if (heads.length > 1) tr.appendChild(el("td",{}, r.prev === undefined ? "—" : eur(r.prev)));
+    if (withDelta) tr.appendChild(el("td",{}, r.prev === undefined ? "—" : eur((r.cur??0)-(r.prev??0))));
+    t.appendChild(tr);
+
+    // Percentage row after margin subtotals
+    if (r._margin && revC){
+      const pctTr = el("tr",{class:"margin-pct"});
+      const pctName = r._margin === "mk" ? "Myyntikate %" : "Käyttökate %";
+      pctTr.appendChild(el("td",{style:"padding-left:8px;color:var(--ink2)"}, pctName));
+      pctTr.appendChild(el("td",{}, revC ? pct((r.cur??0)/revC*100) : "—"));
+      if (heads.length > 1) pctTr.appendChild(el("td",{}, (revP && r.prev !== undefined) ? pct(r.prev/revP*100) : "—"));
+      if (withDelta) pctTr.appendChild(el("td",{},""));
+      t.appendChild(pctTr);
+    }
+  });
+
+  container.replaceChildren(t);
 }
 
 // --- income statement by cost center ----------------------------------------
-// Fetched once per report; the period picker only re-renders from these postings.
 let ccState = null;
 const CC_KEY = "easorCcPeriod";
+let ccActiveDrill = null; // {tr, btn, drillTr}
 function ccPeriodLabel(v){
   if (v === "cum") return `${fiDate(ccState.start)} → ${fiDate(ccState.end)} (kumulatiivinen)`;
   const x = ccState.months.find(mm => `${mm.y}-${pad(mm.m)}` === v);
@@ -567,18 +997,53 @@ function renderCc(){
   cols.forEach(c => { const th = el("th"); if (c.code === "") th.append("Ei kustannus­paikkaa"); else { th.append(c.code); if (ccName.get(c.code)) th.appendChild(el("small",{},ccName.get(c.code))); } hr.appendChild(th); });
   hr.appendChild(el("th",{class:"tot"}, filtered ? "Valitut yhteensä" : "Yhteensä"));
   t.appendChild(hr);
+
   lines.forEach(r => {
-    const tr = el("tr", r.sub || r.depth===0 && /^[A-ZÅÄÖ ()\-]+$/.test(r.name) ? {class:"sum"} : {});
-    const td = el("td",{},r.name); td.style.paddingLeft = (8 + r.depth*16) + "px"; if (r.depth) td.style.color = "var(--ink2)"; tr.appendChild(td);
-    colMaps.forEach(m => tr.appendChild(el("td",{}, m.has(r.key) ? eur(m.get(r.key)) : "—")));
+    const isSumRow = r.sub || (r.depth===0 && /^[A-ZÅÄÖ ()\-]+$/.test(r.name));
+    const tr = el("tr", isSumRow ? {class:"sum"} : {});
+    const td = el("td",{},r.name); td.style.paddingLeft = (8 + r.depth*16) + "px"; if (r.depth) td.style.color = "var(--ink2)";
+
+    // Check if this is a margin row
+    const isMarginRow = r.sub && (r.name === "MYYNTIKATE" || r.name === "KÄYTTÖKATE");
+
+    tr.appendChild(td);
+    cols.forEach((c, ci) => {
+      const val = colMaps[ci].has(r.key) ? colMaps[ci].get(r.key) : null;
+      const dataTd = el("td",{}, val !== null ? eur(val) : "—");
+      // Make clickable for drill-down (non-margin, non-subtotal rows with data)
+      if (!isSumRow && !r._margin && val !== null){
+        dataTd.classList.add("clickable");
+        dataTd.title = `Avaa viennit: ${r.name} / ${c.code || "ei kp"}`;
+        dataTd.addEventListener("click", () => toggleCcCellDrill(dataTd, r.name, c.code, v, tr, t, lines.length + 2));
+      }
+      tr.appendChild(dataTd);
+    });
+
     tr.appendChild(el("td",{class:"tot"}, eur(r.amount)));
     t.appendChild(tr);
+
+    // Percentage rows after margin subtotals
+    if (isMarginRow){
+      const totalRev = line(total, "LIIKEVAIHTO");
+      const pctTr = el("tr",{class:"pct"});
+      const pctName = r.name === "MYYNTIKATE" ? "Myyntikate %" : "Käyttökate %";
+      pctTr.appendChild(el("td",{},pctName));
+      cols.forEach((c,ci) => {
+        const colRev = line(c.pl, "LIIKEVAIHTO");
+        const colMk = colMaps[ci].get(r.key) ?? null;
+        pctTr.appendChild(el("td",{}, colRev && colMk !== null ? pct(colMk/colRev*100) : "—"));
+      });
+      pctTr.appendChild(el("td",{class:"tot"}, totalRev ? pct(r.amount/totalRev*100) : "—"));
+      t.appendChild(pctTr);
+    }
   });
+
   const margin = (pl) => { const rev = line(pl,"LIIKEVAIHTO"); return rev ? pct(ebit(pl)/rev*100) : "—"; };
   const pr = el("tr",{class:"pct"}); pr.appendChild(el("td",{},"Liikevoitto % liikevaihdosta"));
   cols.forEach(c => pr.appendChild(el("td",{}, margin(c.pl)))); pr.appendChild(el("td",{class:"tot"}, margin(total)));
   t.appendChild(pr);
   $("cc").replaceChildren(t);
+  ccActiveDrill = null;
 
   const warns = [];
   if (ccState.truncated) warns.push(`Vientejä oli yli ${nf0.format(MAX_PAGES*PAGE)}, joten kaikkia ei haettu. Lyhennä kautta.`);
@@ -587,6 +1052,83 @@ function renderCc(){
   const note = $("ccNote");
   if (warns.length) { note.replaceChildren(el("strong",{},"Tarkista ennen käyttöä. "), document.createTextNode(warns.join(" "))); note.hidden = false; } else note.hidden = true;
 }
+
+// CC table cell drill-down
+async function toggleCcCellDrill(dataTd, rowName, ccCode, period, parentTr, table, colCount){
+  const org = runState?.org;
+  if (!org) return;
+
+  // If the same cell is clicked again → close
+  if (ccActiveDrill && ccActiveDrill.td === dataTd){
+    ccActiveDrill.drillTr?.remove();
+    ccActiveDrill = null;
+    return;
+  }
+  // Close previous drill if any
+  if (ccActiveDrill){ ccActiveDrill.drillTr?.remove(); ccActiveDrill = null; }
+
+  const drillTr = el("tr",{class:"drill-row"});
+  const drillTd = el("td",{colspan:String(colCount)});
+  drillTr.appendChild(drillTd);
+  parentTr.after(drillTr);
+  ccActiveDrill = {td: dataTd, drillTr};
+  drillTd.textContent = "Haetaan…";
+
+  // Determine date range from period selection
+  let from = ccState.start, to = ccState.end;
+  if (period !== "cum"){
+    const mm = ccState.months.find(m => `${m.y}-${pad(m.m)}` === period);
+    if (mm){ from = mm.from; to = mm.to; }
+  }
+
+  try {
+    const [ledger, groups] = await Promise.all([fetchLedger(org, ccState.start, ccState.end), templateGroups()]);
+    const rgs = new Set(reportingGroupsFor(rowName));
+
+    // Filter rows for this CC, row's reporting groups, and selected period
+    let relevant = ledger.rows.filter(x => {
+      if (!rgs.has(groups.get(String(x.accountNumber)))) return false;
+      if (String(x.costCenter ?? "").trim() !== ccCode) return false;
+      if (period !== "cum" && String(x.voucherDate).slice(0,7) !== period) return false;
+      return true;
+    });
+
+    // Group by account
+    const byAcc = new Map();
+    relevant.forEach(x => {
+      const acc = String(x.accountNumber);
+      if (!byAcc.has(acc)) byAcc.set(acc, []);
+      byAcc.get(acc).push(x);
+    });
+    const accList = [...byAcc.entries()].sort((a,b) => a[0].localeCompare(b[0],"fi",{numeric:true}));
+
+    drillTd.replaceChildren();
+    if (!accList.length){ drillTd.appendChild(el("span",{class:"diff-note"},"Ei vientejä.")); return; }
+
+    const inner = el("div",{class:"drill-inner"});
+    const t2 = el("table"); inner.appendChild(t2);
+
+    accList.forEach(([acc, accRows]) => {
+      const accSum = accRows.reduce((s,x) => s + (-(x.credit ?? x.debet ?? 0)),0);
+      const accName = ledger.names.get(acc) || "";
+      const accTr = el("tr");
+      const accTd = el("td",{class:"drill-acc-td"});
+      const accBtn = el("button",{class:"drill-btn","aria-expanded":"false"});
+      accBtn.appendChild(document.createTextNode(`${acc} ${accName}`.trim()));
+      accBtn.addEventListener("click", () => toggleAccountDrill(accBtn, accRows, org, t2, accTr, true));
+      accTd.appendChild(accBtn);
+      accTr.appendChild(accTd);
+      accTr.appendChild(el("td",{},eur(r2(accSum))));
+      for (let i = 2; i < colCount; i++) accTr.appendChild(el("td",{},""));
+      t2.appendChild(accTr);
+    });
+
+    drillTd.appendChild(inner);
+  } catch(e){
+    drillTd.textContent = "Vientejä ei saatu: " + (errorText(e) || String(e));
+  }
+}
+
 $("ccPeriod").addEventListener("change", () => { try { localStorage.setItem(CC_KEY, $("ccPeriod").value); } catch {} renderCc(); });
 
 async function runCostCenters(org, start, end, dim, months){
@@ -596,7 +1138,6 @@ async function runCostCenters(org, start, end, dim, months){
   $("ccSub").textContent = `${fiDate(start)} → ${fiDate(end)}, kirjanpidon vienneistä kustannuspaikan mukaan`;
   try {
     const settings = await call("get_dimension_settings",{organizationNumber:org});
-    // Shown only for organizations that use cost centers.
     if (!(Array.isArray(settings) ? settings : []).some(d => d.dimensionType === "CostCenter" && d.isEnabled)) { $("ccCard").hidden = true; st(""); return; }
     $("ccCard").hidden = false;
     const [led, vals, groups] = await Promise.all([fetchLedger(org, start, end), fetchDimValues(org, "CostCenter"), templateGroups()]);
@@ -605,14 +1146,11 @@ async function runCostCenters(org, start, end, dim, months){
     led.rows.forEach(x => { const c = String(x.costCenter ?? "").trim(); if (!byCc.has(c)) byCc.set(c, []); byCc.get(c).push(x); });
     let codes = [...byCc.keys()].filter(c => c !== "").sort((a,b) => a.localeCompare(b,"fi",{numeric:true}));
     if (byCc.has("")) codes.push("");
-    // With the cost-center filter on, show only the chosen ones.
     const filtered = dim?.type === "CostCenter";
     if (filtered) codes = codes.filter(c => dim.codes.has(c === "" ? "__none__" : c));
     st("");
     if (!codes.length) { $("cc").replaceChildren(el("p",{class:"empty"},"Kaudella ei ole tuloslaskelman vientejä valituilla kustannuspaikoilla.")); return; }
     ccState = {byCc, codes, groups, names: led.names, ccName, filtered, truncated: led.truncated, start, end, months};
-
-    // Period picker: cumulative, then each month of the period, newest first.
     const sel = $("ccPeriod");
     let saved = null; try { saved = localStorage.getItem(CC_KEY); } catch {}
     sel.replaceChildren(opt("cum", `Kumulatiivinen ${MONTHS[months[0].m-1]}–${MONTHS[months.at(-1).m-1]}kuu ${months.at(-1).y}`),
@@ -664,16 +1202,13 @@ async function runSales(org, months, end, names){
     ["Muistutettu tai perinnässä", remind.every(Boolean)?nf0.format(remind.reduce((a,x)=>a+(x.totalCount||0),0))+" kpl":"—", "Kauden laskuista"]
   ];
   $("salesKpis").replaceChildren(...k.map(([l,val,c])=>{const d=el("div",{class:"card kpi"}); d.append(el("div",{class:"lbl"},l), el("div",{class:"val"},val), el("div",{class:"cmp"},c)); return d;}));
-
   const labs = months.map(x=>MONTHS[x.m-1]);
   const a = mC.map(x=>x?x.totalWithoutTax||0:null), b = mP.map(x=>x?x.totalWithoutTax||0:null);
   bars($("c3"), labs, a, b, names); $("t3").replaceChildren(monthTable(labs, a, b, names));
-
   const t = el("table"), hr = el("tr"); ["Tila","Kpl","Summa (alv 0 %)","Summa"].forEach(h=>hr.appendChild(el("th",{},h))); t.appendChild(hr);
   statuses.forEach((s,i)=>{ const x = st[i]; if (x && !x.totalCount) return; const tr = el("tr");
     tr.append(el("td",{},STATUS_FI[s]), el("td",{},x?nf0.format(x.totalCount):"—"), el("td",{},x?eur(x.totalWithoutTax||0):"—"), el("td",{},x?eur(x.total||0):"—")); t.appendChild(tr); });
   $("salesStatusTbl").replaceChildren(t);
-
   if (due && (due.invoices||[]).length){
     const today = Date.parse(todayStr()+"T12:00:00Z");
     const dt = el("table"), dh = el("tr"); ["Asiakas","Lasku","Laskupäivä","Eräpäivä","Myöhässä","Avoinna"].forEach(h=>dh.appendChild(el("th",{},h))); dt.appendChild(dh);
@@ -682,19 +1217,21 @@ async function runSales(org, months, end, names){
         el("td",{},late==null?"—":nf0.format(late)+" pv"), el("td",{},eur(inv.accountingCurrencyUnpaidTotal ?? inv.currencyUnpaidTotal))); dt.appendChild(tr); });
     $("dueTbl").replaceChildren(dt);
   } else $("dueTbl").replaceChildren(el("p",{class:"empty"}, due ? "Ei erääntyneitä laskuja." : "Erääntyneitä laskuja ei saatu."));
-
   const missing = res.filter(r=>!r.ok).length;
   sStatus(missing ? `Valmis, ${missing} hakua epäonnistui` : "Valmis");
 }
 
 // --- main -----------------------------------------------------------------
+// runState stores current org/dates for drill-down handlers
+let runState = null;
+
 async function run(ev){
   ev?.preventDefault();
   const org = parseInt($("org").value,10); const [ey,em] = $("month").value.split("-").map(Number);
   if (!org || !ey) return;
   $("go").disabled = true; document.body.classList.add("loading");
   $("errBox").hidden = true; $("warnBox").hidden = true; $("noHost").hidden = true;
-  oldestFetch = null; ledgerCache.clear();
+  oldestFetch = null; ledgerCache.clear(); runState = null;
   const status = (s) => $("status").textContent = s;
   status("Yhdistetään Easoriin…");
   await ready;
@@ -710,6 +1247,9 @@ async function run(ev){
     if (!fy) throw new Fail("no_period", `Organisaatiolla ${org} ei ole tilikautta, johon ${fiDate(end)} osuu.`);
     const start = fy.start;
     const prevStart = shiftYear(start,-1), prevEnd = shiftYear(end,-1), prevFyEnd = dayBefore(start);
+
+    // Store state for drill-down
+    runState = {org, start, end};
 
     // header
     $("orgName").textContent = info?.name || `Organisaatio ${org}`;
@@ -759,17 +1299,24 @@ async function run(ev){
     if (!plP) warns.push("Vertailukauden tuloslaskelmaa ei saatu (vertailu voi osua kahdelle tilikaudelle).");
     [[bsC,end],[bsP,prevFyEnd]].forEach(([b,d])=>{ if (b?.balanceMismatch) warns.push(`Tase ${fiDate(d)} ei täsmää: ero ${eur(b.balanceMismatch.difference)}.`); });
     const unc = new Map();
-    [bsP,plP,plC,bsC].forEach(x => (x?.unclassifiedAccounts||[]).forEach(a => { if (a.amount) unc.set(a.number, a); })); // latest wins: the current balance sheet
+    [bsP,plP,plC,bsC].forEach(x => (x?.unclassifiedAccounts||[]).forEach(a => { if (a.amount) unc.set(a.number, a); }));
     unc.forEach(a => warns.push(`Luokittelematon tili ${a.number} ${a.name}, saldo ${eur(a.amount)}, ei mukana summissa.`));
     const failedMonths = [...mC,...mP].filter(x=>!x).length; if (failedMonths) warns.push(`${failedMonths} kuukauden luvut jäivät saamatta.`);
     if (warns.length){ const w=$("warnBox"); w.replaceChildren(el("strong",{},"Tarkista ennen käyttöä."), (()=>{const ul=el("ul"); warns.forEach(t=>ul.appendChild(el("li",{},t))); return ul;})()); w.hidden=false; }
 
+    // Compute margins
+    const marginsC = computeMargins(plC);
+    const marginsP = computeMargins(plP);
+
     // KPIs
-    const rC=line(plC,"LIIKEVAIHTO"), rP=plP?line(plP,"LIIKEVAIHTO"):null, eC=ebit(plC), eP=plP?ebit(plP):null;
+    const rC=line(plC,"LIIKEVAIHTO"), rP=plP?line(plP,"LIIKEVAIHTO"):null;
+    const eC=ebit(plC), eP=plP?ebit(plP):null;
+    const kkC = marginsC?.kk ?? null, kkP = marginsP?.kk ?? null;
     const cashC=findBs(bsC,"vastaavaa","Rahat ja pankkisaamiset"), cashP=findBs(bsP,"vastaavaa","Rahat ja pankkisaamiset");
     const ch = (a,b) => b ? ` · ${a>=b?"+":"−"}${nf0.format(Math.abs((a/b-1)*100))} %` : "";
     const k = [
       ["Liikevaihto", eur(rC), rP==null?"Ei vertailua":`Vertailu: ${eur(rP)}${ch(rC,rP)}`],
+      ["Käyttökate", eur(kkC), kkP==null?"Ei vertailua":`Vertailu: ${eur(kkP)}`],
       ["Liikevoitto", eur(eC), eP==null?"Ei vertailua":`Vertailu: ${eur(eP)}`],
       ["Liikevoittoprosentti", rC?pct(eC/rC*100):"—", rP?`Vertailu: ${pct(eP/rP*100)}`:"Ei vertailua"],
       [`Rahat ja pankki ${fiDate(end)}`, eur(cashC), cashP==null?"":`${fiDate(prevFyEnd)}: ${eur(cashP)}`]
@@ -778,14 +1325,20 @@ async function run(ev){
 
     // charts
     const labs = months.map(x=>MONTHS[x.m-1]);
-    const r1 = mC.map(x=>x?line(x,"LIIKEVAIHTO"):null), r2 = mP.map(x=>x?line(x,"LIIKEVAIHTO"):null);
+    const r1 = mC.map(x=>x?line(x,"LIIKEVAIHTO"):null), r2v = mP.map(x=>x?line(x,"LIIKEVAIHTO"):null);
     const e1 = mC.map(x=>x?ebit(x):null), e2 = mP.map(x=>x?ebit(x):null);
-    bars($("c1"),labs,r1,r2,names); $("t1").replaceChildren(monthTable(labs,r1,r2,names));
+    bars($("c1"),labs,r1,r2v,names); $("t1").replaceChildren(monthTable(labs,r1,r2v,names));
     bars($("c2"),labs,e1,e2,names); $("t2").replaceChildren(monthTable(labs,e1,e2,names));
 
-    // statements
+    // Tuloslaskelma with drill-down
     $("plSub").textContent = `${fiDate(start)} → ${fiDate(end)} ja vertailukausi`;
-    $("pl").replaceChildren(stmtTable(merge(flatten(plC.tuloslaskelma), plP?flatten(plP.tuloslaskelma):[]), names, true));
+    const plCFlat = flatten(plC.tuloslaskelma);
+    const plPFlat = plP ? flatten(plP.tuloslaskelma) : [];
+    const mergedPl = merge(plCFlat, plPFlat);
+    const finalPl = buildPLRows(mergedPl, marginsC, marginsP);
+    renderPl($("pl"), finalPl, names, true, org, start, end);
+
+    // Tase (no drill-down, use original stmtTable)
     $("bsSub").textContent = `${fiDate(end)} ja ${fiDate(prevFyEnd)}`;
     if (bsC){
       const side = (key, title) => { const a = bsC?.[key], b = bsP?.[key]; const rows = merge(flatten(a), b?flatten(b):[]); rows.push({key:key+"/total", name:title, depth:0, sub:true, cur:a?.amount, prev:b?.amount}); return rows; };
@@ -795,9 +1348,9 @@ async function run(ev){
         tr.appendChild(el("td",{},eur(bsC.balanceMismatch?.difference ?? 0))); tr.appendChild(el("td",{},bsP?eur(bsP.balanceMismatch?.difference ?? 0):"—")); extra.push(tr); }
       $("bs").replaceChildren(stmtTable(rows,[fiDate(end),fiDate(prevFyEnd)],false,extra));
     } else $("bs").replaceChildren(el("p",{class:"empty"},"Tasetta ei saatu."));
+
     await Promise.all([salesP, ccP]);
     if (oldestFetch !== null) $("metaRow").append(el("span",{},`Haettu ${new Date(oldestFetch).toLocaleString("fi-FI",{dateStyle:"short",timeStyle:"short"})}`));
-    // Remember what was shown (the selection only, never the figures) so a return visit can show it again.
     try { localStorage.setItem("easorRaportti", JSON.stringify({org, month:$("month").value, dimType: dim ? dim.type : "", dimCodes: dim ? [...dim.codes] : [], shownAt: Date.now()})); } catch {}
     status(restoring ? "Viimeksi haetut luvut. Paina Hae luvut, niin saat tuoreet." : "Valmis");
   } catch (e) {
@@ -814,6 +1367,13 @@ async function restoreLast(){
   if (!s?.org || !s.month || !s.shownAt || Date.now() - s.shownAt > KEEP_MS - 36e5) return;
   restoring = true;
   try {
+    // Set hidden org field first (before loadDims which uses it)
+    $("org").value = String(s.org);
+    // Update combo display if options loaded; will also be updated by loadOrgList callback
+    const match = orgOptions.find(o => o.num === s.org);
+    if (match) $("orgInput").value = match.label;
+    else $("orgInput").value = String(s.org);
+    $("month").value = s.month;
     await loadDims(s.org);
     if (s.dimType && [...$("dimType").options].some(o => o.value === s.dimType)) {
       $("dimType").value = s.dimType;
@@ -825,6 +1385,15 @@ async function restoreLast(){
     await run();
   } finally { restoring = false; }
 }
+
+// restore saved org/month from localStorage (before loadOrgList)
+try {
+  const s = JSON.parse(localStorage.getItem("easorRaportti")||"{}");
+  if (s.org) { $("org").value = String(s.org); $("orgInput").value = String(s.org); }
+  if (s.month) $("month").value = s.month;
+} catch {}
+if (!$("month").value) { const t = new Date(); t.setDate(1); t.setMonth(t.getMonth()-1); $("month").value = `${t.getFullYear()}-${pad(t.getMonth()+1)}`; }
+
 ready.then(m => { if (!m) $("noHost").hidden = false; else { loadOrgList(); loadDims(parseInt($("org").value,10)); restoreLast(); } });
 })();
 </script>

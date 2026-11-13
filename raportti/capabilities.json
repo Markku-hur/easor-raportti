@@ -14,7 +14,8 @@
           "get_dimension_values",
           "get_general_ledger_events",
           "get_used_chart_of_accounts",
-          "lookup_chart_of_accounts_template"
+          "lookup_chart_of_accounts_template",
+          "get_voucher_image"
         ]
       }
     ]

@@ -199,17 +199,20 @@ export function registerGeneralLedgerTools(server: McpServer): void {
     {
       title: "Get voucher image",
       description:
-        "Returns the PDF image of a voucher from Easor as a base64-encoded MCP resource. " +
+        "Returns the PDF image of a voucher from Easor. " +
         "The voucherId can be obtained from any Easor response that includes a voucher identifier " +
         "(for example the voucherId field on general ledger event rows). " +
         "Memorial vouchers (muistioviennit) never have an image. " +
-        "The organizationNumber must match the organization the voucher belongs to.",
+        "The organizationNumber must match the organization the voucher belongs to. " +
+        "Set openFile=false to receive only the base64 PDF data without saving to disk or opening a viewer " +
+        "(intended for embedded display in a web page; default true opens the PDF in the system viewer).",
       inputSchema: {
         organizationNumber: z.number().int(),
         voucherId: z.string(),
+        openFile: z.boolean().optional().describe("When false, return base64 data only without saving to disk or opening a viewer. Defaults to true."),
       },
     },
-    async ({ organizationNumber, voucherId }) => {
+    async ({ organizationNumber, voucherId, openFile = true }) => {
       let pdfBuffer: Buffer;
       try {
         pdfBuffer = await getVoucherImage(organizationNumber, voucherId);
@@ -226,6 +229,10 @@ export function registerGeneralLedgerTools(server: McpServer): void {
       }
       if (pdfBuffer.length > MAX_VOUCHER_IMAGE_SIZE) {
         return { isError: true as const, content: [{ type: "text" as const, text: `Tositteen ${voucherId} kuva on liian suuri (${(pdfBuffer.length / 1024 / 1024).toFixed(1)} Mt). Enimmäiskoko on 5 Mt.` }] };
+      }
+      // openFile=false: return base64 data only (for embedded display in report page)
+      if (!openFile) {
+        return jsonContent({ voucherId, organizationNumber, base64: pdfBuffer.toString("base64"), mimeType: "application/pdf" });
       }
       const tmpPath = join(tmpdir(), `easor-voucher-${voucherId}.pdf`);
       await writeFile(tmpPath, pdfBuffer);
