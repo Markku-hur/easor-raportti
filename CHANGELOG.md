@@ -24,3 +24,7 @@ Kaikki merkittävät muutokset dokumentoidaan tähän tiedostoon.
 - `.github/ISSUE_TEMPLATE/` – issue-pohjat (bugraportti ja ominaisuuspyyntö)
 - `.github/workflows/ci.yml` – CI-workflow (build + testit Node 20 ja 22)
 - `.github/dependabot.yml` – Dependabot viikoittaiset npm-päivitykset
+
+### Korjattu
+
+- **Tase-porautuminen ei toiminut**: `bsTemplateGroups`-suodatin vertaili `groupPath[0] === "TASE"`, mutta todellinen arvo on `"TASE VASTAAVAA"` tai `"TASE VASTATTAVAA"` – kaikki tilit suodattuivat pois. Korjattu käyttämään `startsWith("TASE")`.
