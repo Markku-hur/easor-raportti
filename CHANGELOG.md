@@ -11,6 +11,8 @@ Kaikki merkittävät muutokset dokumentoidaan tähän tiedostoon.
 - **MYYNTIKATE** ja **KÄYTTÖKATE** välisummarivit kateprosentteineen
 - Käyttökate-KPI-kortti
 - Tiliporautuminen: tuloslaskelmarivi → tilit → viennit → tosite-PDF modaalissa
+- **Tase-porautuminen**: tase-rivi → tilit → viennit → tosite-PDF
+- **Tosite-PDF piirretään canvakselle** pdf.js 3.11.174:llä – toimii artefaktin sandbox-kehyksessä (ei enää tyhjä iframe)
 - Kustannuspaikkakohtainen tuloslaskelma porautumisella
 - Seurantakohderajaus (kustannuspaikka, projekti jne.)
 - Myyntilaskuosio: kuukausikehitys, tilat, erääntyneet
