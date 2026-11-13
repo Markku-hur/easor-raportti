@@ -129,7 +129,8 @@ tr.drill-row[hidden]{display:none}
 .pdfmodal-hd h3{margin:0;font-weight:400;font-size:17px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pdfclose{background:none;border:0;font-size:24px;color:var(--muted);cursor:pointer;padding:0 4px;line-height:1;flex:none}
 .pdfclose:hover{color:var(--ink)}
-.pdfframe{width:100%;height:100%;border:0;border-radius:8px;background:var(--bg)}
+.pdfview{width:100%;height:100%;overflow-y:auto;border-radius:8px;background:var(--bg);padding:4px 0}
+.pdfview canvas{display:block;max-width:100%;height:auto;margin:0 auto 8px;border-radius:4px}
 .pdfmsg{padding:24px;color:var(--muted);font-size:15px}
 </style>
 
@@ -251,7 +252,7 @@ tr.drill-row[hidden]{display:none}
       <h3 id="pdfModalTitle">Tosite</h3>
       <button class="pdfclose" id="pdfClose" aria-label="Sulje PDF-näkymä">×</button>
     </div>
-    <iframe class="pdfframe" id="pdfFrame" title="Tositteen kuva" src="about:blank"></iframe>
+    <div class="pdfview" id="pdfView" role="document" aria-label="Tositteen kuva" tabindex="0"></div>
   </div>
 </div>
 
@@ -662,6 +663,14 @@ async function templateGroups(){
   }
   return tplGroups;
 }
+let bsTplGroups = null;
+async function bsTemplateGroups(){
+  if (!bsTplGroups){
+    const r = await call("lookup_chart_of_accounts_template",{groupContains:"TASE", limit:5000});
+    bsTplGroups = new Map((r?.accounts||[]).filter(a=>a.groupPath?.[0]==="TASE").map(a=>[String(a.number), a.reportingGroup]));
+  }
+  return bsTplGroups;
+}
 
 // --- PL form (used by plFromRows for cost-center and dimension-filtered PL) --
 // Liiketoiminnan muut kulut is placed before Poistot per statutory display order.
@@ -744,6 +753,25 @@ function fetchLedger(org, from, to){
   })().catch(e => { ledgerCache.delete(key); throw e; }));
   return ledgerCache.get(key);
 }
+const bsLedgerCache = new Map();
+function fetchBsLedger(org, from, to){
+  const key = `${org}|${from}|${to}`;
+  if (!bsLedgerCache.has(key)) bsLedgerCache.set(key, (async () => {
+    const used = await call("get_used_chart_of_accounts",{organizationNumber:org, fromDate:from, toDate:to});
+    const names = new Map((Array.isArray(used)?used:[]).map(a=>[String(a.number), a.name]));
+    const accs = [...names.keys()].filter(n => /^[0-2]/.test(n));
+    let rows = [], truncated = false;
+    if (accs.length){
+      const q = (p) => call("get_general_ledger_events",{organizationNumber:org, fromDate:from, toDate:to, accountNumbers:accs.join(","), pageIndex:p, pageSize:PAGE});
+      const first = await q(0); rows.push(...(first?.results||[]));
+      const pages = Math.min(first?.pageCount || 1, MAX_PAGES); truncated = (first?.pageCount||1) > MAX_PAGES;
+      const rest = await pool(Array.from({length:pages-1},(_,i)=>()=>q(i+1)), 4, ()=>{});
+      rest.forEach(r => { if (!r.ok) throw r.e; rows.push(...(r.v?.results||[])); });
+    }
+    return {rows: rows.filter(x => x.voucherState !== "Deleted"), names, truncated};
+  })().catch(e => { bsLedgerCache.delete(key); throw e; }));
+  return bsLedgerCache.get(key);
+}
 async function ledgerPL(org, from, to, dim){
   const {rows, names, truncated} = await fetchLedger(org, from, to);
   const groups = await templateGroups();
@@ -758,38 +786,78 @@ $("dimType").addEventListener("change", loadDimValues);
 $("pdfClose").addEventListener("click", closePdfModal);
 $("pdfModal").addEventListener("click", e => { if (e.target === $("pdfModal")) closePdfModal(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("pdfModal").hidden) closePdfModal(); });
+
+let pdfJsReady = null;
+function loadPdfJs(){
+  if (pdfJsReady) return pdfJsReady;
+  pdfJsReady = new Promise((resolve, reject) => {
+    // Load worker first so pdf.js can use it inline (no Web Worker needed in sandboxed frame)
+    const workerScript = document.createElement("script");
+    workerScript.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    workerScript.onload = () => {
+      const mainScript = document.createElement("script");
+      mainScript.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+      mainScript.onload = () => {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        resolve(window.pdfjsLib);
+      };
+      mainScript.onerror = reject;
+      document.head.appendChild(mainScript);
+    };
+    workerScript.onerror = reject;
+    document.head.appendChild(workerScript);
+  });
+  return pdfJsReady;
+}
+function b64ToBytes(b64){
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+async function renderPdf(base64, container){
+  const pdfjsLib = await loadPdfJs();
+  const pdf = await pdfjsLib.getDocument({data: b64ToBytes(base64), cacheImages: false}).promise;
+  container.replaceChildren();
+  for (let p = 1; p <= pdf.numPages; p++){
+    const page = await pdf.getPage(p);
+    const vp = page.getViewport({scale: 1.5});
+    const canvas = document.createElement("canvas");
+    canvas.width = vp.width;
+    canvas.height = vp.height;
+    container.appendChild(canvas);
+    await page.render({canvasContext: canvas.getContext("2d"), viewport: vp}).promise;
+  }
+}
 function closePdfModal(){
   $("pdfModal").hidden = true;
-  $("pdfFrame").src = "about:blank";
-}
-function showPdfModal(src, title, msg){
-  $("pdfModalTitle").textContent = title || "Tosite";
-  if (src){
-    $("pdfFrame").src = src;
-    $("pdfFrame").style.display = "";
-    $("pdfModal").querySelector(".pdfmsg")?.remove();
-  } else {
-    $("pdfFrame").src = "about:blank";
-    $("pdfFrame").style.display = "none";
-    const p = el("p",{class:"pdfmsg"}, msg || "Ei kuvaa saatavilla.");
-    $("pdfModal").querySelector(".pdfmodal-box").appendChild(p);
-  }
-  $("pdfModal").hidden = false;
-  $("pdfClose").focus();
+  $("pdfView").replaceChildren();
+  $("pdfModal").querySelector(".pdfmsg")?.remove();
 }
 async function openVoucherPdf(btn, org, voucherId, voucherNumber){
   btn.disabled = true;
+  const title = `Tosite ${voucherNumber || voucherId}`;
+  $("pdfModalTitle").textContent = title;
+  $("pdfView").replaceChildren();
+  $("pdfModal").querySelector(".pdfmsg")?.remove();
+  $("pdfModal").hidden = false;
+  $("pdfClose").focus();
+  const loadingMsg = el("p",{class:"pdfmsg"}, "Ladataan…");
+  $("pdfModal").querySelector(".pdfmodal-box").appendChild(loadingMsg);
   try {
     const r = await call("get_voucher_image",{organizationNumber:org, voucherId, openFile:false});
+    loadingMsg.remove();
     if (r?.image === null){
-      showPdfModal(null, `Tosite ${voucherNumber || voucherId}`, "Muistiovienneillä ei ole kuvaa.");
+      $("pdfModal").querySelector(".pdfmodal-box").appendChild(el("p",{class:"pdfmsg"}, "Muistiovienneillä ei ole kuvaa."));
     } else if (r?.base64){
-      showPdfModal(`data:application/pdf;base64,${r.base64}`, `Tosite ${voucherNumber || voucherId}`);
+      await renderPdf(r.base64, $("pdfView"));
     } else {
-      showPdfModal(null, `Tosite ${voucherNumber || voucherId}`, "Kuvaa ei saatu.");
+      $("pdfModal").querySelector(".pdfmodal-box").appendChild(el("p",{class:"pdfmsg"}, "Kuvaa ei saatu."));
     }
   } catch(e){
-    showPdfModal(null, `Tosite ${voucherNumber || voucherId}`, "Virhe: " + (errorText(e) || String(e)));
+    loadingMsg.remove();
+    $("pdfModal").querySelector(".pdfmodal-box").appendChild(el("p",{class:"pdfmsg"}, "Virhe: " + (errorText(e) || String(e))));
   } finally { btn.disabled = false; }
 }
 
@@ -920,6 +988,65 @@ async function togglePLDrill(drillBtn, rowName, rowAmt, org, fromDate, toDate, t
   }
 }
 
+// Toggle BS row drill (show/hide accounts under a Balance Sheet row)
+async function toggleBsDrill(drillBtn, rowName, rowAmt, org, fyStart, end, table, parentTr){
+  const expanded = drillBtn.getAttribute("aria-expanded") === "true";
+  drillBtn.setAttribute("aria-expanded", String(!expanded));
+  if (expanded){
+    if (drillBtn._drillTr){ drillBtn._drillTr.remove(); drillBtn._drillTr = null; }
+    return;
+  }
+  const colCount = parentTr.cells.length;
+  const drillTr = el("tr",{class:"drill-row"});
+  const drillTd = el("td",{colspan:String(colCount)});
+  drillTr.appendChild(drillTd);
+  parentTr.after(drillTr);
+  drillBtn._drillTr = drillTr;
+  drillTd.textContent = "Haetaan…";
+
+  try {
+    const [ledger, groups] = await Promise.all([fetchBsLedger(org, fyStart, end), bsTemplateGroups()]);
+    const relevant = ledger.rows.filter(x => groups.get(String(x.accountNumber)) === rowName);
+
+    const byAcc = new Map();
+    relevant.forEach(x => {
+      const acc = String(x.accountNumber);
+      if (!byAcc.has(acc)) byAcc.set(acc, []);
+      byAcc.get(acc).push(x);
+    });
+    const accList = [...byAcc.entries()].sort((a,b) => a[0].localeCompare(b[0],"fi",{numeric:true}));
+
+    drillTd.replaceChildren();
+    if (!accList.length){
+      drillTd.appendChild(el("span",{class:"diff-note"}, "Ei vientejä tältä jaksolta."));
+      return;
+    }
+
+    const inner = el("div",{class:"drill-inner"});
+    const t = el("table");
+    inner.appendChild(t);
+
+    accList.forEach(([acc, accRows]) => {
+      const accSum = accRows.reduce((s,x) => s + (-(x.credit ?? x.debet ?? 0)), 0);
+      const accName = ledger.names.get(acc) || "";
+      const accTr = el("tr");
+      const accTd = el("td",{class:"drill-acc-td"});
+      const accBtn = el("button",{class:"drill-btn","aria-expanded":"false"});
+      accBtn.appendChild(document.createTextNode(`${acc} ${accName}`.trim()));
+      accBtn.addEventListener("click", () => toggleAccountDrill(accBtn, accRows, org, t, accTr, false));
+      accTd.appendChild(accBtn);
+      accTr.appendChild(accTd);
+      accTr.appendChild(el("td",{}, eur(r2(accSum))));
+      for (let i = 2; i < colCount; i++) accTr.appendChild(el("td",{},""));
+      t.appendChild(accTr);
+    });
+
+    drillTd.appendChild(inner);
+  } catch(e){
+    drillTd.textContent = "Vientejä ei saatu: " + (errorText(e) || String(e));
+  }
+}
+
 // Render an interactive P&L table with drill-down
 function renderPl(container, rows, heads, withDelta, org, fromDate, toDate){
   const revRow = rows.find(r => r.name === "LIIKEVAIHTO");
@@ -968,6 +1095,40 @@ function renderPl(container, rows, heads, withDelta, org, fromDate, toDate){
     }
   });
 
+  container.replaceChildren(t);
+}
+
+// Render an interactive Balance Sheet table with drill-down
+function renderBs(container, rows, heads, extra, org, fyStart, end){
+  const t = el("table");
+  const hr = el("tr");
+  ["",...heads].forEach(h => hr.appendChild(el("th",{},h)));
+  t.appendChild(hr);
+
+  rows.forEach(r => {
+    const isSumRow = r.sub || (r.depth===0 && /^[A-ZÅÄÖ ()\-]+$/.test(r.name));
+    const tr = el("tr", isSumRow ? {class:"sum"} : {});
+    const td = el("td");
+    td.style.paddingLeft = (8 + r.depth*16) + "px";
+    if (r.depth) td.style.color = "var(--ink2)";
+
+    const canDrill = !r.sub && org && fyStart;
+    if (canDrill){
+      const btn = el("button",{class:"drill-btn","aria-expanded":"false"});
+      btn.appendChild(document.createTextNode(r.name));
+      btn.addEventListener("click", () => toggleBsDrill(btn, r.name, r.cur, org, fyStart, end, t, tr));
+      td.appendChild(btn);
+    } else {
+      td.textContent = r.name;
+    }
+    tr.appendChild(td);
+
+    tr.appendChild(el("td",{}, eur(r.cur ?? 0)));
+    tr.appendChild(el("td",{}, r.prev === undefined ? "—" : eur(r.prev)));
+    t.appendChild(tr);
+  });
+
+  if (extra?.length){ extra.forEach(tr => t.appendChild(tr)); }
   container.replaceChildren(t);
 }
 
@@ -1231,7 +1392,7 @@ async function run(ev){
   if (!org || !ey) return;
   $("go").disabled = true; document.body.classList.add("loading");
   $("errBox").hidden = true; $("warnBox").hidden = true; $("noHost").hidden = true;
-  oldestFetch = null; ledgerCache.clear(); runState = null;
+  oldestFetch = null; ledgerCache.clear(); bsLedgerCache.clear(); runState = null;
   const status = (s) => $("status").textContent = s;
   status("Yhdistetään Easoriin…");
   await ready;
@@ -1338,7 +1499,7 @@ async function run(ev){
     const finalPl = buildPLRows(mergedPl, marginsC, marginsP);
     renderPl($("pl"), finalPl, names, true, org, start, end);
 
-    // Tase (no drill-down, use original stmtTable)
+    // Tase with drill-down
     $("bsSub").textContent = `${fiDate(end)} ja ${fiDate(prevFyEnd)}`;
     if (bsC){
       const side = (key, title) => { const a = bsC?.[key], b = bsP?.[key]; const rows = merge(flatten(a), b?flatten(b):[]); rows.push({key:key+"/total", name:title, depth:0, sub:true, cur:a?.amount, prev:b?.amount}); return rows; };
@@ -1346,7 +1507,7 @@ async function run(ev){
       const extra = [];
       if (bsC.balanceMismatch || bsP?.balanceMismatch){ const tr=el("tr"); const td=el("td"); td.appendChild(el("span",{class:"mm"},"Ero (ei täsmää)")); tr.appendChild(td);
         tr.appendChild(el("td",{},eur(bsC.balanceMismatch?.difference ?? 0))); tr.appendChild(el("td",{},bsP?eur(bsP.balanceMismatch?.difference ?? 0):"—")); extra.push(tr); }
-      $("bs").replaceChildren(stmtTable(rows,[fiDate(end),fiDate(prevFyEnd)],false,extra));
+      renderBs($("bs"), rows, [fiDate(end), fiDate(prevFyEnd)], extra, org, start, end);
     } else $("bs").replaceChildren(el("p",{class:"empty"},"Tasetta ei saatu."));
 
     await Promise.all([salesP, ccP]);
