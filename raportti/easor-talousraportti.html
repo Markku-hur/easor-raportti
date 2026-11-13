@@ -1,0 +1,830 @@
+<title>Easor talousraportti</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500&display=swap">
+<style>
+/* Layout: one column, controls row, headline tiles, two charts side by side, statements side by side */
+:root{
+  --bg:#FAFAF2; --card:#FFFFFF; --ink:#0A1914; --ink2:#4A5A45; --muted:#6B7B66;
+  --line:#EBEEE7; --s1:#3E8E2A; --s2:#6E73E0; --accent:#9CFE75; --btn:#0A1914; --btnink:#FFFFFF;
+  --warnbg:#FFF97D; --warnink:#0A1914; --hover:rgba(145,158,141,.14);
+  --font:"Albert Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1914; --card:#14241E; --ink:#FFFFFF; --ink2:#C9D1C5; --muted:#919E8D;
+    --line:#22362D; --s1:#4FAE2E; --s2:#7C80E8; --btn:#9CFE75; --btnink:#0A1914;
+    --warnbg:#3A3A1E; --warnink:#FFF97D; --hover:rgba(145,158,141,.18); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1914; --card:#14241E; --ink:#FFFFFF; --ink2:#C9D1C5; --muted:#919E8D;
+  --line:#22362D; --s1:#4FAE2E; --s2:#7C80E8; --btn:#9CFE75; --btnink:#0A1914;
+  --warnbg:#3A3A1E; --warnink:#FFF97D; --hover:rgba(145,158,141,.18); color-scheme:dark;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+.over{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-weight:300;font-size:clamp(26px,4vw,40px);line-height:1.2;margin:4px 0;text-wrap:balance}
+h2{font-weight:400;font-size:19px;margin:0}
+.sub{color:var(--ink2);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:4px 18px;color:var(--muted);font-size:14px;margin-top:8px}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.controls label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.controls select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;max-width:16em}
+.controls select:disabled{opacity:.6}
+.ms{position:relative;display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.msbtn{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 30px 8px 10px;min-width:12em;max-width:18em;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}
+.msbtn::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:translateY(-70%) rotate(45deg)}
+.msbtn:disabled{opacity:.6}
+.mspanel{position:absolute;top:100%;left:0;margin-top:6px;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(10,25,20,.14);padding:10px;width:min(340px,calc(100vw - 32px));display:grid;gap:8px;color:var(--ink)}
+.mspanel[hidden]{display:none}
+.mspanel input{width:100%;box-sizing:border-box}
+.msacts{display:flex;gap:16px}
+button.link{background:none;color:var(--s1);padding:0;font-size:14px;border-radius:4px}
+.mslist{max-height:280px;overflow-y:auto;display:grid}
+.mslist label{display:flex;gap:8px;align-items:center;font-size:15px;color:var(--ink);padding:5px 4px;border-radius:6px;cursor:pointer}
+.mslist label:hover{background:var(--hover)}
+.mslist input{accent-color:var(--s1);width:16px;height:16px;flex:none}
+.mslist .sep{border-top:1px solid var(--line);margin:4px 0}
+.chip{display:inline-block;background:var(--accent);color:#0A1914;border-radius:999px;padding:2px 10px;font-size:13px}
+.controls input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
+#org{width:13em} #month{width:11em}
+button{font:inherit;font-size:16px;border:0;border-radius:10px;padding:9px 18px;background:var(--btn);color:var(--btnink);cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+.status{font-size:14px;color:var(--muted);margin-left:auto;min-height:1.5em}
+.notice{border-radius:12px;padding:14px 18px;font-size:14px;background:var(--warnbg);color:var(--warnink)}
+.notice strong{font-weight:500}
+.notice ul{margin:6px 0 0;padding-left:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.card{background:var(--card);border-radius:16px;padding:20px;border:1px solid var(--line);min-width:0}
+.kpi .lbl{font-size:14px;color:var(--muted)}
+.kpi .val{font-size:28px;font-weight:300;margin:4px 0;font-variant-numeric:tabular-nums}
+.kpi .cmp{font-size:14px;color:var(--ink2)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px}
+.legend{display:flex;gap:16px;font-size:14px;color:var(--ink2);margin:6px 0 2px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.chart{position:relative;min-height:220px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart svg text{fill:var(--muted);font-family:var(--font);font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 10px;border-radius:8px;opacity:0;white-space:nowrap;z-index:2;font-variant-numeric:tabular-nums}
+.tip b{font-weight:500}
+details{margin-top:8px;font-size:14px}
+summary{cursor:pointer;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:150px}
+th{font-weight:400;color:var(--muted)}
+tr.sum td{font-weight:500;border-top:1px solid var(--muted)}
+.empty{color:var(--muted);font-size:14px;padding:24px 0}
+.mm{background:var(--warnbg);color:var(--warnink);border-radius:6px;padding:0 6px}
+.foot{font-size:13px;color:var(--muted)}
+.cc th,.cc td{min-width:7.5em}
+.cc th:first-child,.cc td:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:190px;box-shadow:1px 0 0 var(--line)}
+@media (max-width:600px){.cc th:first-child,.cc td:first-child{min-width:128px;max-width:128px;font-size:13px}}
+.controls.cc-ctl{background:none;border:0;padding:0;margin:12px 0 4px}
+.cc th{white-space:normal;vertical-align:bottom;line-height:1.3}
+.cc th small{display:block;font-size:12px;color:var(--muted)}
+.cc tr.pct td{color:var(--ink2);border-bottom:0}
+.cc td.tot,.cc th.tot{font-weight:500}
+.loading .val,.loading .chart,.loading .tbl{opacity:.45;transition:opacity .2s}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="over">Talousraportti · Easor</p>
+    <h1 id="orgName">Valitse organisaatio</h1>
+    <p class="sub" id="periodText">Luvut haetaan Easorista, kun painat Hae luvut. Ensimmäinen haku kestää noin minuutin. Kun palaat sivulle, se näyttää viimeksi haetut luvut (enintään 7 päivää vanhat), kunnes haet uudet.</p>
+    <div class="meta" id="metaRow"></div>
+  </header>
+
+  <form class="controls" id="form">
+    <label for="org">Organisaationumero<input id="org" type="text" inputmode="numeric" pattern="[0-9]+" autocomplete="off" list="orgList" placeholder="Valitse tai kirjoita" required><datalist id="orgList"></datalist></label>
+    <label for="month">Kausi päättyy (kuukausi)<input id="month" type="month" required></label>
+    <label for="dimType">Seurantakohde<select id="dimType"><option value="">Ei rajausta</option></select></label>
+    <div class="ms" id="dimMs"><span class="mslbl" id="dimValLbl">Arvot</span>
+      <button type="button" id="dimVal" class="msbtn" aria-haspopup="true" aria-expanded="false" aria-labelledby="dimValLbl dimVal" disabled>Valitse ensin seurantakohde</button>
+      <div class="mspanel" id="dimPanel" hidden>
+        <input type="search" id="dimSearch" placeholder="Hae koodilla tai nimellä" aria-label="Hae arvoja">
+        <div class="msacts"><button type="button" class="link" id="dimAll">Kaikki näkyvät</button><button type="button" class="link" id="dimNone">Tyhjennä</button></div>
+        <div class="mslist" id="dimList" role="group" aria-label="Arvot"></div>
+      </div>
+    </div>
+    <button id="go" type="submit">Hae luvut</button>
+    <span class="status" id="status" aria-live="polite"></span>
+  </form>
+
+  <div class="notice" id="noHost" hidden>
+    <strong>Easor ei ole tavoitettavissa tästä näkymästä.</strong> Sivu hakee luvut koneellasi ajettavasta Easor-palvelimesta. Avaa sivu Claude-työpöytäsovelluksessa koneella, jossa Easor on käynnissä, ja paina Hae luvut.
+  </div>
+  <div class="notice" id="errBox" hidden></div>
+  <div class="notice" id="warnBox" hidden></div>
+
+  <section class="kpis" id="kpis" aria-label="Tunnusluvut"></section>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Liikevaihto kuukausittain</h2>
+      <div class="legend"><span><i style="background:var(--s1)"></i><span class="yCur">Kausi</span></span><span><i style="background:var(--s2)"></i><span class="yPrev">Vertailu</span></span></div>
+      <div class="chart" id="c1"><p class="empty">Ei vielä lukuja.</p></div>
+      <details><summary>Näytä taulukkona</summary><div class="tbl" id="t1"></div></details>
+    </div>
+    <div class="card">
+      <h2>Liikevoitto kuukausittain</h2>
+      <div class="legend"><span><i style="background:var(--s1)"></i><span class="yCur">Kausi</span></span><span><i style="background:var(--s2)"></i><span class="yPrev">Vertailu</span></span></div>
+      <div class="chart" id="c2"><p class="empty">Ei vielä lukuja.</p></div>
+      <details><summary>Näytä taulukkona</summary><div class="tbl" id="t2"></div></details>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Tuloslaskelma</h2>
+      <p class="sub" style="font-size:14px" id="plSub"></p>
+      <div class="tbl" id="pl"><p class="empty">Ei vielä lukuja.</p></div>
+    </div>
+    <div class="card">
+      <h2>Tase</h2>
+      <p class="sub" style="font-size:14px" id="bsSub"></p>
+      <div class="tbl" id="bs"><p class="empty">Ei vielä lukuja.</p></div>
+    </div>
+  </div>
+
+  <div class="card" id="ccCard" hidden>
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px">
+      <h2>Tuloslaskelma kustannuspaikoittain</h2>
+      <span class="status" id="ccStatus" aria-live="polite" style="margin-left:0"></span>
+    </div>
+    <p class="sub" style="font-size:14px" id="ccSub">Kauden luvut kirjanpidon vienneistä kustannuspaikan mukaan.</p>
+    <div class="controls cc-ctl"><label for="ccPeriod">Jakso<select id="ccPeriod" disabled><option value="cum">Kumulatiivinen</option></select></label></div>
+    <div class="notice" id="ccNote" hidden style="margin-top:10px"></div>
+    <div class="tbl cc" id="cc"><p class="empty">Ei vielä lukuja.</p></div>
+  </div>
+
+  <section aria-labelledby="salesH" style="display:grid;gap:16px">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px">
+      <h2 id="salesH" style="font-size:26px;font-weight:300">Myyntilaskut</h2>
+      <span class="status" id="salesStatus" aria-live="polite" style="margin-left:0"></span>
+    </div>
+    <p class="sub" style="font-size:14px;margin-top:-8px">Laskupäivän mukaan. Laskutettu summa ei ole sama kuin kirjanpidon liikevaihto: mukana voi olla laskuja, joita ei ole vielä kirjattu, ja hyvityksiä.</p>
+    <p class="sub" id="salesFilterNote" style="font-size:14px" hidden>Seurantakohderajaus ei koske myyntilaskuja: osio näyttää kaikki organisaation laskut.</p>
+    <div class="notice" id="salesErr" hidden></div>
+    <div class="kpis" id="salesKpis"></div>
+    <div class="grid2">
+      <div class="card">
+        <h2>Laskutus kuukausittain (alv 0 %)</h2>
+        <div class="legend"><span><i style="background:var(--s1)"></i><span class="yCur">Kausi</span></span><span><i style="background:var(--s2)"></i><span class="yPrev">Vertailu</span></span></div>
+        <div class="chart" id="c3"><p class="empty">Ei vielä lukuja.</p></div>
+        <details><summary>Näytä taulukkona</summary><div class="tbl" id="t3"></div></details>
+      </div>
+      <div class="card">
+        <h2>Kauden laskut tiloittain</h2>
+        <p class="sub" style="font-size:14px">Kauden aikana päivätyt laskut, summat sisältävät alv:n</p>
+        <div class="tbl" id="salesStatusTbl"><p class="empty">Ei vielä lukuja.</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Vanhimmat erääntyneet laskut</h2>
+      <p class="sub" style="font-size:14px">Kaikki tällä hetkellä erääntyneet laskut, vanhin eräpäivä ensin</p>
+      <div class="tbl" id="dueTbl"><p class="empty">Ei vielä lukuja.</p></div>
+    </div>
+  </section>
+
+  <p class="foot">Lähde: Easor (tuloslaskelma ja tase lasketaan Easorin raporttityökaluilla, myyntilaskut Easorin laskutuksesta, vain lukuoikeus). Vertailu on sama kausi edellisenä vuonna. Tase vertailuun: edellisen tilikauden viimeinen päivä.</p>
+</div>
+
+<script>
+(() => {
+const SERVER = "host:easor";
+const $ = (id) => document.getElementById(id);
+const MONTHS = ["tammi","helmi","maalis","huhti","touko","kesä","heinä","elo","syys","loka","marras","joulu"];
+const nf2 = new Intl.NumberFormat("fi-FI",{minimumFractionDigits:2,maximumFractionDigits:2});
+const nf0 = new Intl.NumberFormat("fi-FI",{maximumFractionDigits:0});
+const nf1 = new Intl.NumberFormat("fi-FI",{minimumFractionDigits:1,maximumFractionDigits:1});
+const eur = (v) => v == null || isNaN(v) ? "—" : nf2.format(v) + " €";
+const pct = (v) => v == null || !isFinite(v) ? "—" : nf1.format(v) + " %";
+const fiDate = (s) => { const [y,m,d] = s.split("-"); return `${+d}.${+m}.${y}`; };
+const pad = (n) => String(n).padStart(2,"0");
+const ymd = (y,m,d) => `${y}-${pad(m)}-${pad(d)}`;
+const lastDay = (y,m) => new Date(Date.UTC(y,m,0)).getUTCDate(); // m is 1-based
+const shiftYear = (s,dy) => { const [y,m,d] = s.split("-").map(Number); const ny=y+dy; return ymd(ny,m,Math.min(d,lastDay(ny,m))); };
+const dayBefore = (s) => new Date(Date.parse(s+"T12:00:00Z")-864e5).toISOString().slice(0,10);
+// Easor stores period bounds in UTC around Finnish midnight
+const startLocal = (iso) => new Date(Date.parse(iso)+12*36e5).toISOString().slice(0,10);
+const endLocal = (iso) => new Date(Date.parse(iso)-12*36e5).toISOString().slice(0,10);
+
+// remembered inputs (per viewer convenience only)
+try { const s = JSON.parse(localStorage.getItem("easorRaportti")||"{}"); if (s.org) $("org").value = s.org; if (s.month) $("month").value = s.month; } catch {}
+if (!$("month").value) { const t = new Date(); t.setDate(1); t.setMonth(t.getMonth()-1); $("month").value = `${t.getFullYear()}-${pad(t.getMonth()+1)}`; }
+
+let mcp = null;
+const ready = (window.claude?.use ? window.claude.use("mcp") : Promise.resolve(null)).then(m => (mcp = m)).catch(() => null);
+
+class Fail extends Error { constructor(code,msg){ super(msg); this.code = code; } }
+// Claude Desktop allows a page 30 local tool calls a minute and 8 at a time, so calls are paced below that.
+const BUDGET = 26, REFILL_PER_MS = 28/60e3, MAX_IN_FLIGHT = 6, MEMO_MS = 5*60e3;
+let tokens = BUDGET, tokensAt = Date.now(), inFlight = 0, oldestFetch = null;
+// The Claude app keeps fetched results per viewer for up to 7 days. A normal search reuses
+// them for 5 minutes; reopening the page shows the last report from them without asking Easor.
+const KEEP_MS = 7*24*36e5;
+let restoring = false;
+const waiting = [], memo = new Map(), sleep = (ms) => new Promise(r => setTimeout(r, ms));
+function pump(){
+  while (waiting.length && inFlight < MAX_IN_FLIGHT){
+    const now = Date.now(); tokens = Math.min(BUDGET, tokens + (now-tokensAt)*REFILL_PER_MS); tokensAt = now;
+    if (tokens < 1){ setTimeout(pump, Math.ceil((1-tokens)/REFILL_PER_MS)); return; }
+    tokens--; inFlight++; waiting.shift()();
+  }
+}
+const slot = () => new Promise(r => { waiting.push(r); pump(); });
+const release = () => { inFlight--; pump(); };
+async function call(tool, input){
+  if (!mcp) throw new Fail("no_mcp","");
+  const key = tool + JSON.stringify(input), hit = memo.get(key);
+  if (hit && Date.now()-hit.at < MEMO_MS){ if (oldestFetch === null || hit.at < oldestFetch) oldestFetch = hit.at; return hit.payload; }
+  for (let attempt = 0; ; attempt++){
+    // Restoring reads the app's stored results, so it is not paced; anything missing still runs.
+    const paced = !restoring || attempt > 0;
+    if (paced) await slot();
+    try {
+      const cache = {staleTime: restoring ? KEEP_MS : MEMO_MS, gcTime: KEEP_MS};
+      const r = await mcp.callTool(SERVER, tool, input, {cache});
+      let p = r.payload;
+      if (typeof p === "string") { try { p = JSON.parse(p); } catch {} }
+      const at = r.cache?.storedAt ?? Date.now(); memo.set(key, {at, payload:p}); if (oldestFetch === null || at < oldestFetch) oldestFetch = at;
+      return p;
+    } catch (e) {
+      if (e?.code === "rate_limited" && attempt < 3){ tokens = 0; await sleep(Math.min(e.retryAfterMs ?? 3000, 10e3)); continue; }
+      throw new Fail(e?.code || "upstream_error", e?.message || String(e));
+    } finally { if (paced) release(); }
+  }
+}
+async function pool(tasks, n, onDone){
+  const out = new Array(tasks.length); let i = 0;
+  async function worker(){ while (i < tasks.length){ const k = i++; try { out[k] = {ok:true, v: await tasks[k]()}; } catch(e){ out[k] = {ok:false, e}; } onDone(); } }
+  await Promise.all(Array.from({length:Math.min(n,tasks.length)}, worker));
+  return out;
+}
+
+function errorText(e){
+  switch (e.code){
+    case "no_mcp": case "server_not_connected": case "not_granted": case "capability_disabled": case "capability_removed":
+      return null; // handled by no-host notice
+    case "not_in_manifest": return "Easor-yhteys on estetty tältä sivulta. Salli Easor sivun käyttöoikeuksista ja yritä uudelleen.";
+    case "approval_required": case "cancelled": return "Haku tarvitsee hyväksyntäsi. Paina Hae luvut ja hyväksy kysely sovelluksessa.";
+    case "blocked_by_policy": return "Organisaatiosi asetukset estävät Easor-työkalun käytön.";
+    case "server_unavailable": return "Easor ei vastannut ajoissa. Odota hetki ja paina Hae luvut uudelleen.";
+    case "rate_limited": return "Claude rajoitti hakuja. Odota minuutti ja paina Hae luvut uudelleen.";
+    case "tool_error": return "Easor palautti virheen: " + (e.message || "tuntematon syy");
+    default: return "Haku epäonnistui (" + e.code + "): " + (e.message || "");
+  }
+}
+const isHostMissing = (e) => ["no_mcp","server_not_connected","not_granted","capability_disabled","capability_removed"].includes(e.code);
+
+// --- tree helpers ---------------------------------------------------------
+function flatten(node, depth=0, path="", out=[]){
+  (node?.children||[]).forEach(c => {
+    const key = path + "/" + c.name;
+    out.push({key, name:c.name, depth, amount:c.amount, sub:!!c.isSubtotal});
+    flatten(c, depth+1, key, out);
+  });
+  return out;
+}
+function merge(a, b){
+  const rows = a.map(r => ({...r, cur:r.amount, prev:undefined}));
+  const idx = new Map(rows.map((r,i)=>[r.key,i]));
+  let last = -1;
+  b.forEach(r => {
+    if (idx.has(r.key)) { const i = idx.get(r.key); rows[i].prev = r.amount; last = i; }
+    else { const nr = {...r, cur:undefined, prev:r.amount}; rows.splice(last+1,0,nr); last++; rows.forEach((x,i)=>idx.set(x.key,i)); }
+  });
+  return rows;
+}
+function el(tag, attrs={}, text){ const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; }
+function stmtTable(rows, heads, withDelta, extra){
+  const t = el("table"); const hr = el("tr"); ["",...heads,...(withDelta?["Muutos"]:[])].forEach(h => hr.appendChild(el("th",{},h))); t.appendChild(hr);
+  rows.forEach(r => {
+    const tr = el("tr", r.sub || r.depth===0 && /^[A-ZÅÄÖ ()\-]+$/.test(r.name) ? {class:"sum"} : {});
+    const td = el("td",{},r.name); td.style.paddingLeft = (8 + r.depth*16) + "px"; if (r.depth) td.style.color = "var(--ink2)"; tr.appendChild(td);
+    tr.appendChild(el("td",{},eur(r.cur ?? 0)));
+    if (heads.length > 1) tr.appendChild(el("td",{}, r.prev === undefined ? "—" : eur(r.prev)));
+    if (withDelta) tr.appendChild(el("td",{}, r.prev === undefined ? "—" : eur((r.cur??0)-(r.prev??0))));
+    t.appendChild(tr);
+  });
+  (extra||[]).forEach(x => t.appendChild(x));
+  return t;
+}
+
+// --- chart ----------------------------------------------------------------
+function niceStep(r){ if (!(r>0)) return 1; const p = Math.pow(10,Math.floor(Math.log10(r))), n = r/p; return (n<=1?1:n<=2?2:n<=5?5:10)*p; }
+function bars(box, labels, a, b, names){
+  box.replaceChildren();
+  const W=540,H=260,ml=52,mr=8,mt=10,mb=26,iw=W-ml-mr,ih=H-mt-mb;
+  const vals = [...a,...b].filter(v=>v!=null);
+  let lo=Math.min(0,...vals), hi=Math.max(0,...vals); if (hi===lo) hi=lo+1;
+  const st=niceStep((hi-lo)/4); lo=Math.floor(lo/st)*st; hi=Math.ceil(hi/st)*st;
+  const y=v=>mt+ih-(v-lo)/(hi-lo)*ih, gw=iw/labels.length, bw=Math.max(3,Math.min(16,(gw-8)/2));
+  const NS="http://www.w3.org/2000/svg", svg=document.createElementNS(NS,"svg");
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("role","img");
+  const mk=(t,at)=>{const e=document.createElementNS(NS,t); for(const k in at) e.setAttribute(k,at[k]); svg.appendChild(e); return e;};
+  const fmtTick = v => Math.abs(hi-lo) >= 3000 ? nf0.format(v/1000)+" t" : nf0.format(v);
+  for (let t=lo; t<=hi+st/1e6; t+=st){
+    mk("line",{x1:ml,x2:W-mr,y1:y(t),y2:y(t),style:`stroke:${Math.abs(t)<st/1e6?"var(--muted)":"var(--line)"}`,"stroke-width":Math.abs(t)<st/1e6?1.5:1});
+    mk("text",{x:ml-6,y:y(t)+4,"text-anchor":"end"}).textContent = fmtTick(t);
+  }
+  const step = labels.length > 12 ? 2 : 1;
+  const bar=(x,v,col)=>{ if (!v) return; const y0=y(0), y1=y(v), h=Math.max(1,Math.abs(y1-y0)), r=Math.min(4,h/2), top=Math.min(y0,y1), bot=top+h;
+    const d = v>0 ? `M${x},${y0} V${top+r} Q${x},${top} ${x+r},${top} H${x+bw-r} Q${x+bw},${top} ${x+bw},${top+r} V${y0} Z`
+                  : `M${x},${y0} V${bot-r} Q${x},${bot} ${x+r},${bot} H${x+bw-r} Q${x+bw},${bot} ${x+bw},${bot-r} V${y0} Z`;
+    mk("path",{d,style:`fill:${col}`}); };
+  const hits=[];
+  labels.forEach((lab,i)=>{ const gx=ml+i*gw, cx=gx+gw/2;
+    const hit = mk("rect",{x:gx,y:mt,width:gw,height:ih,style:"fill:transparent"});
+    bar(cx-bw-1,a[i],"var(--s1)"); bar(cx+1,b[i],"var(--s2)");
+    if (i % step === 0) mk("text",{x:cx,y:H-8,"text-anchor":"middle"}).textContent = lab;
+    hits.push([hit,i]); });
+  box.appendChild(svg);
+  const tip = el("div",{class:"tip"}); box.appendChild(tip);
+  hits.forEach(([r,i])=>{
+    svg.appendChild(r); // keep hit targets on top
+    r.addEventListener("mousemove",e=>{ tip.replaceChildren(el("b",{},labels[i]+"kuu"), el("br"), document.createTextNode(`${names[0]}: ${eur(a[i])}`), el("br"), document.createTextNode(`${names[1]}: ${b[i]==null?"—":eur(b[i])}`));
+      const bx=box.getBoundingClientRect(); let x=e.clientX-bx.left+12; if (x>bx.width-180) x-=200; tip.style.left=x+"px"; tip.style.top=(e.clientY-bx.top-24)+"px"; tip.style.opacity=1; r.style.fill="var(--hover)"; });
+    r.addEventListener("mouseleave",()=>{ tip.style.opacity=0; r.style.fill="transparent"; });
+  });
+}
+function monthTable(labels, a, b, names){
+  const t = el("table"), hr = el("tr"); ["Kuukausi",...names].forEach(h=>hr.appendChild(el("th",{},h))); t.appendChild(hr);
+  labels.forEach((l,i)=>{ const tr=el("tr"); tr.appendChild(el("td",{},l+"kuu")); tr.appendChild(el("td",{},eur(a[i]))); tr.appendChild(el("td",{},b[i]==null?"—":eur(b[i]))); t.appendChild(tr); });
+  return t;
+}
+const line = (pl, name) => pl?.tuloslaskelma?.children?.find(c => c.name === name)?.amount ?? 0;
+const ebit = (pl) => { const c = pl?.tuloslaskelma?.children?.find(c => /^LIIKEVOITTO/.test(c.name)); return c ? c.amount : (pl?.tuloslaskelma?.amount ?? 0); };
+const findBs = (bs, side, name) => { let hit; (function walk(n){ (n?.children||[]).forEach(c=>{ if (c.name===name && hit===undefined) hit=c.amount; walk(c); }); })(bs?.[side]); return hit; };
+
+// --- tracking dimensions (seurantakohteet) ----------------------------------
+const DIM_FIELD = {CostCenter:"costCenter", CostType:"costType", Project:"project", ProjectType:"projectType"};
+const DIM_FI = {CostCenter:"Kustannuspaikka", CostType:"Kustannuslaji", Project:"Projekti", ProjectType:"Projektilaji"};
+let dimOrg = null, dimNames = {};
+function opt(value, text){ const o = document.createElement("option"); o.value = value; o.textContent = text; return o; }
+let dimLoading = Promise.resolve();
+function loadDims(org){
+  if (!org) return Promise.resolve();
+  if (org === dimOrg) return dimLoading;
+  dimOrg = org;
+  const t = $("dimType");
+  t.replaceChildren(opt("","Ei rajausta")); setDimValues(null);
+  return dimLoading = (async () => {
+    try {
+      const s = await call("get_dimension_settings",{organizationNumber:org});
+      (Array.isArray(s)?s:[]).filter(d=>d.isEnabled && DIM_FIELD[d.dimensionType]).forEach(d=>{ dimNames[d.dimensionType] = d.name || DIM_FI[d.dimensionType]; t.appendChild(opt(d.dimensionType, dimNames[d.dimensionType])); });
+    } catch { dimOrg = null; /* filters stay unavailable; the report still works */ }
+  })();
+}
+// Multi-select of dimension values: a button that opens a checkbox list.
+let dimItems = [];               // [{code,text}] for the chosen dimension type
+const dimSel = new Set();        // selected codes ("__none__" = rows without a value)
+function msButtonText(){
+  const b = $("dimVal");
+  if (!dimItems.length) return;
+  if (!dimSel.size) { b.textContent = "Valitse arvot"; return; }
+  const chosen = dimItems.filter(d => dimSel.has(d.code));
+  b.textContent = chosen.length === 1 ? chosen[0].text : chosen.length <= 3 ? chosen.map(d => d.code === "__none__" ? "ei arvoa" : d.code).join(", ") : `${chosen.length} valittu`;
+  b.title = chosen.map(d => d.text).join("\n");
+}
+function renderDimList(){
+  const q = $("dimSearch").value.trim().toLowerCase(), list = $("dimList");
+  const shown = dimItems.filter(d => !q || d.text.toLowerCase().includes(q));
+  list.replaceChildren(...shown.flatMap((d, i) => {
+    const lab = el("label"), cb = el("input", {type:"checkbox", value:d.code});
+    cb.checked = dimSel.has(d.code);
+    cb.addEventListener("change", () => { cb.checked ? dimSel.add(d.code) : dimSel.delete(d.code); msButtonText(); });
+    lab.append(cb, document.createTextNode(d.text));
+    return d.code === "__none__" && shown.length > 1 ? [lab, el("div",{class:"sep"})] : [lab];
+  }));
+  if (!shown.length) list.replaceChildren(el("p",{class:"empty",style:"padding:8px 4px"},"Ei osumia."));
+}
+function setDimValues(items, msg){
+  const b = $("dimVal");
+  dimItems = items || []; dimSel.clear(); $("dimSearch").value = ""; closeDimPanel();
+  b.disabled = !items; b.title = "";
+  if (!items) { b.textContent = msg || "Valitse ensin seurantakohde"; return; }
+  renderDimList(); msButtonText();
+}
+function openDimPanel(){ $("dimPanel").hidden = false; $("dimVal").setAttribute("aria-expanded","true"); renderDimList(); $("dimSearch").focus(); }
+function closeDimPanel(){ $("dimPanel").hidden = true; $("dimVal").setAttribute("aria-expanded","false"); }
+$("dimVal").addEventListener("click", () => $("dimPanel").hidden ? openDimPanel() : closeDimPanel());
+$("dimSearch").addEventListener("input", renderDimList);
+$("dimSearch").addEventListener("keydown", e => { if (e.key === "Enter") e.preventDefault(); });
+$("dimAll").addEventListener("click", () => { $("dimList").querySelectorAll("input").forEach(cb => { cb.checked = true; dimSel.add(cb.value); }); msButtonText(); });
+$("dimNone").addEventListener("click", () => { dimSel.clear(); renderDimList(); msButtonText(); });
+document.addEventListener("click", e => { if (!$("dimMs").contains(e.target)) closeDimPanel(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("dimPanel").hidden) { closeDimPanel(); $("dimVal").focus(); } });
+
+async function fetchDimValues(org, type){
+  const all = []; let page = 0;
+  while (page < 10){ const r = await call("get_dimension_values",{organizationNumber:org, dimensionType:type, isDisabled:false, pageIndex:page, pageSize:200});
+    const list = Array.isArray(r) ? r : (r?.results || r?.items || []); all.push(...list); if (list.length < 200) break; page++; }
+  return all.sort((a,b)=>String(a.code).trim().localeCompare(String(b.code).trim(),"fi",{numeric:true}));
+}
+async function loadDimValues(){
+  const type = $("dimType").value, org = parseInt($("org").value,10);
+  if (!type){ setDimValues(null); return; }
+  setDimValues(null, "Haetaan…");
+  try {
+    const all = await fetchDimValues(org, type);
+    setDimValues([{code:"__none__", text:"Ei seurantakohdetta"}, ...all.map(d=>({code:String(d.code).trim(), text:`${String(d.code).trim()} ${d.name||""}`.trim()}))]);
+  } catch (e) { setDimValues(null, "Arvoja ei saatu"); }
+}
+function currentDim(){
+  const type = $("dimType").value;
+  if (!type || !dimSel.size) return null;
+  const chosen = dimItems.filter(d => dimSel.has(d.code));
+  const names = chosen.map(d => d.code === "__none__" ? "ei seurantakohdetta" : d.text);
+  const label = names.length <= 3 ? names.join(", ") : `${names.length} valittua (${chosen.map(d => d.code === "__none__" ? "ei arvoa" : d.code).join(", ")})`;
+  return {type, codes:new Set(dimSel), label:`${dimNames[type]||DIM_FI[type]}: ${label}`};
+}
+// One call fetches the whole template, so a report does not spend a call per account.
+let tplGroups = null;
+async function templateGroups(){
+  if (!tplGroups){
+    const r = await call("lookup_chart_of_accounts_template",{groupContains:"TULOSLASKELMA", limit:5000});
+    tplGroups = new Map((r?.accounts||[]).filter(a=>a.groupPath?.[0]==="TULOSLASKELMA").map(a=>[String(a.number), a.reportingGroup]));
+  }
+  return tplGroups;
+}
+const r2 = (x) => Math.round(x*100)/100;
+// The statutory order of Easor's own report (api-mcp data/report-formula-fi.json), by reportingGroup.
+const SUBTOTAL = (name) => ({name, subtotal:true});
+const PL_FORM = [
+  {name:"LIIKEVAIHTO", groups:["LIIKEVAIHTO"]},
+  {name:"Valmiiden ja keskeneräisten tuotteiden varastojen muutos", groups:["Valmiiden ja keskeneräisten tuotteiden varastojen muutos"]},
+  {name:"Valmistus omaan käyttöön", groups:["Valmistus omaan käyttöön"]},
+  {name:"Liiketoiminnan muut tuotot", groups:["Liiketoiminnan muut tuotot"]},
+  {name:"Materiaalit ja palvelut", children:["Ostot tilikauden aikana","Varastojen muutos","Ulkopuoliset palvelut"]},
+  {name:"Henkilöstökulut", children:["Palkat ja palkkiot","Eläkekulut","Muut henkilösivukulut"]},
+  {name:"Poistot ja arvonalentumiset", children:["Suunnitelman mukaiset poistot","Konserniliikearvon poisto ja konsernireservin vähennys","Arvonalentumiset pysyvien vastaavien hyödykkeistä","Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"]},
+  {name:"Liiketoiminnan muut kulut", groups:["Liiketoiminnan muut kulut"]},
+  {name:"Osuus osakkuusyritysten voitosta(tappiosta)", groups:["Osuus osakkuusyritysten voitosta(tappiosta)"]},
+  SUBTOTAL("LIIKEVOITTO(-TAPPIO)"),
+  {name:"Rahoitustuotot ja -kulut", children:["Tuotot osuuksista saman konsernin yrityksissä","Tuotot osuuksista omistusyhteysyrityksissä","Saman konsernin yrityksiltä","Muilta","Arvonalentumiset pysyvien vastaavien sijoituksista","Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista","Saman konsernin yrityksille","Muille"]},
+  SUBTOTAL("VOITTO(TAPPIO) ENNEN TILINPÄÄTÖSSIIRTOJA JA VEROJA"),
+  {name:"Tilinpäätössiirrot", children:["Poistoeron muutos","Verotusperusteisten varausten muutos","Konserniavustus"]},
+  {name:"Tuloverot", groups:["Tuloverot"]},
+  {name:"Muut välittömät verot", groups:["Muut välittömät verot"]},
+  {name:"Vähemmistöosuudet", groups:["Vähemmistöosuudet"]},
+  SUBTOTAL("TILIKAUDEN VOITTO(TAPPIO)")
+];
+const IN_FORM = new Set(PL_FORM.flatMap(l => l.groups || l.children || []));
+function plFromRows(rows, groups, names){
+  const g = new Map(), unc = new Map();
+  rows.forEach(x => { const n = String(x.accountNumber), amt = -(x.credit ?? x.debet ?? 0), grp = groups.get(n);
+    if (!grp){ unc.set(n,(unc.get(n)||0)+amt); return; }
+    if (IN_FORM.has(grp)) g.set(grp,(g.get(grp)||0)+amt); // like Easor's report, the closing accounts 9998-9999 are not a line
+  });
+  const has = (name) => g.has(name), amt = (name) => g.get(name) || 0;
+  const out = []; let running = 0;
+  PL_FORM.forEach(l => {
+    if (l.subtotal){ out.push({name:l.name, amount:r2(running), isSubtotal:true}); return; }
+    if (l.children){
+      const kids = l.children.filter(has); if (!kids.length) return;
+      const sum = kids.reduce((a,k)=>a+amt(k),0); running += sum;
+      out.push({name:l.name, amount:r2(sum), children:kids.map(k=>({name:k, amount:r2(amt(k))}))}); return;
+    }
+    if (!has(l.name)) return;
+    running += amt(l.name); out.push({name:l.name, amount:r2(amt(l.name))});
+  });
+  return {tuloslaskelma:{name:"TULOSLASKELMA", amount:r2(running), children:out}, unclassifiedAccounts:[...unc].map(([n,a])=>({number:n, name:names.get(n)||"", amount:r2(a)}))};
+}
+const MAX_PAGES = 100, PAGE = 200;
+// Income-statement postings (accounts 3000-9999) of a period, shared by the dimension filter
+// and the cost-center table. Identical calls are answered once.
+const ledgerCache = new Map();
+function fetchLedger(org, from, to){
+  const key = `${org}|${from}|${to}`;
+  if (!ledgerCache.has(key)) ledgerCache.set(key, (async () => {
+    const used = await call("get_used_chart_of_accounts",{organizationNumber:org, fromDate:from, toDate:to});
+    const names = new Map((Array.isArray(used)?used:[]).map(a=>[String(a.number), a.name]));
+    const accs = [...names.keys()].filter(n => /^[3-9]/.test(n));
+    let rows = [], truncated = false;
+    if (accs.length){
+      const q = (p) => call("get_general_ledger_events",{organizationNumber:org, fromDate:from, toDate:to, accountNumbers:accs.join(","), pageIndex:p, pageSize:PAGE});
+      const first = await q(0); rows.push(...(first?.results||[]));
+      const pages = Math.min(first?.pageCount || 1, MAX_PAGES); truncated = (first?.pageCount||1) > MAX_PAGES;
+      const rest = await pool(Array.from({length:pages-1},(_,i)=>()=>q(i+1)), 4, ()=>{});
+      rest.forEach(r => { if (!r.ok) throw r.e; rows.push(...(r.v?.results||[])); });
+    }
+    return {rows: rows.filter(x => x.voucherState !== "Deleted"), names, truncated};
+  })().catch(e => { ledgerCache.delete(key); throw e; }));
+  return ledgerCache.get(key);
+}
+async function ledgerPL(org, from, to, dim){
+  const {rows, names, truncated} = await fetchLedger(org, from, to);
+  const groups = await templateGroups();
+  const f = DIM_FIELD[dim.type], want = dim.codes;
+  const sel = rows.filter(x => { const v = String(x[f] ?? "").trim(); return v === "" ? want.has("__none__") : want.has(v); });
+  const byMonth = new Map(); sel.forEach(x => { const k = String(x.voucherDate).slice(0,7); if (!byMonth.has(k)) byMonth.set(k,[]); byMonth.get(k).push(x); });
+  return { total: plFromRows(sel, groups, names), month: (y,m) => plFromRows(byMonth.get(`${y}-${pad(m)}`)||[], groups, names), truncated, count: sel.length };
+}
+$("dimType").addEventListener("change", loadDimValues);
+$("org").addEventListener("change", () => { const o = parseInt($("org").value,10); if (o) loadDims(o); });
+
+// --- organizations with credentials in the server's .env --------------------
+// Suggestions only: any number can still be typed, e.g. one covered by shared credentials.
+async function loadOrgList(){
+  try {
+    const r = await call("list_configured_organizations",{});
+    const orgs = r?.organizations || [];
+    $("orgList").replaceChildren(...orgs.map(o =>
+      opt(String(o.organizationNumber), `${o.name || "Nimi ei saatavilla"}${o.businessId ? " (" + o.businessId + ")" : ""}`)));
+    if (!$("org").value && orgs.length === 1) { $("org").value = String(orgs[0].organizationNumber); loadDims(orgs[0].organizationNumber); }
+  } catch { /* an older server without the tool: typing the number still works */ }
+}
+
+// --- income statement by cost center ----------------------------------------
+// Fetched once per report; the period picker only re-renders from these postings.
+let ccState = null;
+const CC_KEY = "easorCcPeriod";
+function ccPeriodLabel(v){
+  if (v === "cum") return `${fiDate(ccState.start)} → ${fiDate(ccState.end)} (kumulatiivinen)`;
+  const x = ccState.months.find(mm => `${mm.y}-${pad(mm.m)}` === v);
+  return x ? `${fiDate(x.from)} → ${fiDate(x.to)}` : "";
+}
+function renderCc(){
+  if (!ccState) return;
+  const {byCc, codes, groups, names, ccName, filtered} = ccState, v = $("ccPeriod").value;
+  const pick = (rows) => v === "cum" ? rows : rows.filter(x => String(x.voucherDate).slice(0,7) === v);
+  $("ccSub").textContent = `${ccPeriodLabel(v)}, kirjanpidon vienneistä kustannuspaikan mukaan`;
+  const colRows = codes.map(c => pick(byCc.get(c)));
+  const cols = codes.map((c,i) => ({code:c, pl: plFromRows(colRows[i], groups, names)}));
+  const total = plFromRows(colRows.flat(), groups, names);
+  const lines = flatten(total.tuloslaskelma);
+  if (!colRows.some(r => r.length) || !lines.length) { $("cc").replaceChildren(el("p",{class:"empty"},"Jaksolla ei ole tuloslaskelman vientejä.")); return; }
+  const colMaps = cols.map(c => new Map(flatten(c.pl.tuloslaskelma).map(r => [r.key, r.amount])));
+
+  const t = el("table"), hr = el("tr");
+  hr.appendChild(el("th",{},""));
+  cols.forEach(c => { const th = el("th"); if (c.code === "") th.append("Ei kustannus­paikkaa"); else { th.append(c.code); if (ccName.get(c.code)) th.appendChild(el("small",{},ccName.get(c.code))); } hr.appendChild(th); });
+  hr.appendChild(el("th",{class:"tot"}, filtered ? "Valitut yhteensä" : "Yhteensä"));
+  t.appendChild(hr);
+  lines.forEach(r => {
+    const tr = el("tr", r.sub || r.depth===0 && /^[A-ZÅÄÖ ()\-]+$/.test(r.name) ? {class:"sum"} : {});
+    const td = el("td",{},r.name); td.style.paddingLeft = (8 + r.depth*16) + "px"; if (r.depth) td.style.color = "var(--ink2)"; tr.appendChild(td);
+    colMaps.forEach(m => tr.appendChild(el("td",{}, m.has(r.key) ? eur(m.get(r.key)) : "—")));
+    tr.appendChild(el("td",{class:"tot"}, eur(r.amount)));
+    t.appendChild(tr);
+  });
+  const margin = (pl) => { const rev = line(pl,"LIIKEVAIHTO"); return rev ? pct(ebit(pl)/rev*100) : "—"; };
+  const pr = el("tr",{class:"pct"}); pr.appendChild(el("td",{},"Liikevoitto % liikevaihdosta"));
+  cols.forEach(c => pr.appendChild(el("td",{}, margin(c.pl)))); pr.appendChild(el("td",{class:"tot"}, margin(total)));
+  t.appendChild(pr);
+  $("cc").replaceChildren(t);
+
+  const warns = [];
+  if (ccState.truncated) warns.push(`Vientejä oli yli ${nf0.format(MAX_PAGES*PAGE)}, joten kaikkia ei haettu. Lyhennä kautta.`);
+  const unc = new Map(); [total, ...cols.map(c => c.pl)].forEach(p => (p.unclassifiedAccounts||[]).forEach(a => { if (a.amount) unc.set(a.number, a); }));
+  if (unc.size) warns.push(`Luokittelemattomat tilit eivät ole mukana: ${[...unc.values()].map(a => a.number).join(", ")}.`);
+  const note = $("ccNote");
+  if (warns.length) { note.replaceChildren(el("strong",{},"Tarkista ennen käyttöä. "), document.createTextNode(warns.join(" "))); note.hidden = false; } else note.hidden = true;
+}
+$("ccPeriod").addEventListener("change", () => { try { localStorage.setItem(CC_KEY, $("ccPeriod").value); } catch {} renderCc(); });
+
+async function runCostCenters(org, start, end, dim, months){
+  const st = (t) => $("ccStatus").textContent = t;
+  ccState = null; $("ccNote").hidden = true; $("ccPeriod").disabled = true;
+  st("Haetaan…"); $("cc").replaceChildren(el("p",{class:"empty"},"Haetaan…"));
+  $("ccSub").textContent = `${fiDate(start)} → ${fiDate(end)}, kirjanpidon vienneistä kustannuspaikan mukaan`;
+  try {
+    const settings = await call("get_dimension_settings",{organizationNumber:org});
+    // Shown only for organizations that use cost centers.
+    if (!(Array.isArray(settings) ? settings : []).some(d => d.dimensionType === "CostCenter" && d.isEnabled)) { $("ccCard").hidden = true; st(""); return; }
+    $("ccCard").hidden = false;
+    const [led, vals, groups] = await Promise.all([fetchLedger(org, start, end), fetchDimValues(org, "CostCenter"), templateGroups()]);
+    const ccName = new Map(vals.map(v => [String(v.code).trim(), v.name || ""]));
+    const byCc = new Map();
+    led.rows.forEach(x => { const c = String(x.costCenter ?? "").trim(); if (!byCc.has(c)) byCc.set(c, []); byCc.get(c).push(x); });
+    let codes = [...byCc.keys()].filter(c => c !== "").sort((a,b) => a.localeCompare(b,"fi",{numeric:true}));
+    if (byCc.has("")) codes.push("");
+    // With the cost-center filter on, show only the chosen ones.
+    const filtered = dim?.type === "CostCenter";
+    if (filtered) codes = codes.filter(c => dim.codes.has(c === "" ? "__none__" : c));
+    st("");
+    if (!codes.length) { $("cc").replaceChildren(el("p",{class:"empty"},"Kaudella ei ole tuloslaskelman vientejä valituilla kustannuspaikoilla.")); return; }
+    ccState = {byCc, codes, groups, names: led.names, ccName, filtered, truncated: led.truncated, start, end, months};
+
+    // Period picker: cumulative, then each month of the period, newest first.
+    const sel = $("ccPeriod");
+    let saved = null; try { saved = localStorage.getItem(CC_KEY); } catch {}
+    sel.replaceChildren(opt("cum", `Kumulatiivinen ${MONTHS[months[0].m-1]}–${MONTHS[months.at(-1).m-1]}kuu ${months.at(-1).y}`),
+      ...[...months].reverse().map(x => opt(`${x.y}-${pad(x.m)}`, `${MONTHS[x.m-1][0].toUpperCase()}${MONTHS[x.m-1].slice(1)}kuu ${x.y}`)));
+    sel.value = saved && [...sel.options].some(o => o.value === saved) ? saved : "cum"; sel.disabled = false;
+    renderCc();
+  } catch (e) {
+    st("");
+    if (isHostMissing(e) || $("ccCard").hidden) return;
+    $("cc").replaceChildren(el("p",{class:"empty"}, "Kustannuspaikkajakoa ei saatu. " + (errorText(e) || "")));
+  }
+}
+
+// --- sales invoices --------------------------------------------------------
+const STATUS_FI = {Draft:"Luonnos", Sending:"Lähetetään", Sent:"Lähetetty", Due:"Erääntynyt", Reminded:"Muistutettu", Collecting:"Perinnässä", Paid:"Maksettu"};
+const todayStr = () => { const t = new Date(); return ymd(t.getFullYear(), t.getMonth()+1, t.getDate()); };
+async function runSales(org, months, end, names){
+  const sStatus = (s) => $("salesStatus").textContent = s;
+  $("salesErr").hidden = true;
+  const start = months[0].from;
+  const Q = (inp) => () => call("sales_get_invoice", {organizationNumber:org, limit:1, ...inp});
+  const MQ = (from,to) => Q({dateType:"Date", dateStart:from, dateEnd:to, invoiceStatus:"All"});
+  const statuses = Object.keys(STATUS_FI);
+  const tasks = [
+    ...months.map(x => MQ(x.from, x.to)),
+    ...months.map(x => MQ(shiftYear(x.from,-1), shiftYear(x.to,-1))),
+    ...statuses.map(s => Q({dateType:"Date", dateStart:start, dateEnd:end, invoiceStatus:s})),
+    () => call("sales_get_invoice", {organizationNumber:org, invoiceStatus:"Due", sortType:"DueDate", sortDirect:"Asc", limit:10})
+  ];
+  let done = 0; sStatus(`Haetaan 0/${tasks.length}`);
+  const res = await pool(tasks, 3, () => sStatus(`Haetaan ${++done}/${tasks.length}`));
+  if (res.every(r => !r.ok)) {
+    const e = res[0].e; sStatus("");
+    if (!isHostMissing(e)) { $("salesErr").replaceChildren(el("strong",{},"Myyntilaskuja ei saatu. "), document.createTextNode(errorText(e)||"")); $("salesErr").hidden = false; }
+    return;
+  }
+  const v = (i) => res[i].ok ? res[i].v : null;
+  const n = months.length;
+  const mC = months.map((_,i)=>v(i)), mP = months.map((_,i)=>v(n+i));
+  const st = statuses.map((_,i)=>v(2*n+i)), due = v(2*n+statuses.length);
+  const sum = (arr, f) => arr.some(x=>!x) ? null : arr.reduce((a,x)=>a+(x[f]||0),0);
+  const netC = sum(mC,"totalWithoutTax"), netP = sum(mP,"totalWithoutTax"), cntC = sum(mC,"totalCount"), cntP = sum(mP,"totalCount");
+  const remind = [st[statuses.indexOf("Reminded")], st[statuses.indexOf("Collecting")]];
+  const ch = (a,b) => a!=null && b ? ` · ${a>=b?"+":"−"}${nf0.format(Math.abs((a/b-1)*100))} %` : "";
+  const k = [
+    ["Laskut yhteensä, sis. luonnokset (alv 0 %)", eur(netC), netP==null?"Ei vertailua":`Vertailu: ${eur(netP)}${ch(netC,netP)}`],
+    ["Laskuja", cntC==null?"—":nf0.format(cntC)+" kpl", cntP==null?"Ei vertailua":`Vertailu: ${nf0.format(cntP)} kpl`],
+    ["Erääntyneet nyt", due?nf0.format(due.totalCount||0)+" kpl":"—", due?`Laskujen summa ${eur(due.total||0)}`:"Ei saatu"],
+    ["Muistutettu tai perinnässä", remind.every(Boolean)?nf0.format(remind.reduce((a,x)=>a+(x.totalCount||0),0))+" kpl":"—", "Kauden laskuista"]
+  ];
+  $("salesKpis").replaceChildren(...k.map(([l,val,c])=>{const d=el("div",{class:"card kpi"}); d.append(el("div",{class:"lbl"},l), el("div",{class:"val"},val), el("div",{class:"cmp"},c)); return d;}));
+
+  const labs = months.map(x=>MONTHS[x.m-1]);
+  const a = mC.map(x=>x?x.totalWithoutTax||0:null), b = mP.map(x=>x?x.totalWithoutTax||0:null);
+  bars($("c3"), labs, a, b, names); $("t3").replaceChildren(monthTable(labs, a, b, names));
+
+  const t = el("table"), hr = el("tr"); ["Tila","Kpl","Summa (alv 0 %)","Summa"].forEach(h=>hr.appendChild(el("th",{},h))); t.appendChild(hr);
+  statuses.forEach((s,i)=>{ const x = st[i]; if (x && !x.totalCount) return; const tr = el("tr");
+    tr.append(el("td",{},STATUS_FI[s]), el("td",{},x?nf0.format(x.totalCount):"—"), el("td",{},x?eur(x.totalWithoutTax||0):"—"), el("td",{},x?eur(x.total||0):"—")); t.appendChild(tr); });
+  $("salesStatusTbl").replaceChildren(t);
+
+  if (due && (due.invoices||[]).length){
+    const today = Date.parse(todayStr()+"T12:00:00Z");
+    const dt = el("table"), dh = el("tr"); ["Asiakas","Lasku","Laskupäivä","Eräpäivä","Myöhässä","Avoinna"].forEach(h=>dh.appendChild(el("th",{},h))); dt.appendChild(dh);
+    due.invoices.forEach(inv => { const tr = el("tr"); const late = inv.dueDate ? Math.round((today-Date.parse(inv.dueDate+"T12:00:00Z"))/864e5) : null;
+      tr.append(el("td",{},inv.recipientContact?.name || "—"), el("td",{},String(inv.number ?? "—")), el("td",{},inv.date?fiDate(inv.date):"—"), el("td",{},inv.dueDate?fiDate(inv.dueDate):"—"),
+        el("td",{},late==null?"—":nf0.format(late)+" pv"), el("td",{},eur(inv.accountingCurrencyUnpaidTotal ?? inv.currencyUnpaidTotal))); dt.appendChild(tr); });
+    $("dueTbl").replaceChildren(dt);
+  } else $("dueTbl").replaceChildren(el("p",{class:"empty"}, due ? "Ei erääntyneitä laskuja." : "Erääntyneitä laskuja ei saatu."));
+
+  const missing = res.filter(r=>!r.ok).length;
+  sStatus(missing ? `Valmis, ${missing} hakua epäonnistui` : "Valmis");
+}
+
+// --- main -----------------------------------------------------------------
+async function run(ev){
+  ev?.preventDefault();
+  const org = parseInt($("org").value,10); const [ey,em] = $("month").value.split("-").map(Number);
+  if (!org || !ey) return;
+  $("go").disabled = true; document.body.classList.add("loading");
+  $("errBox").hidden = true; $("warnBox").hidden = true; $("noHost").hidden = true;
+  oldestFetch = null; ledgerCache.clear();
+  const status = (s) => $("status").textContent = s;
+  status("Yhdistetään Easoriin…");
+  await ready;
+  loadDims(org);
+  try {
+    const [info, periods] = await Promise.all([
+      call("get_organisation_info",{organizationNumber:org}),
+      call("get_accounting_periods",{organizationNumber:org, includeBookkeepingPeriods:false, pageSize:20, sortByDateAscending:false})
+    ]);
+    const end = ymd(ey,em,lastDay(ey,em));
+    const list = (Array.isArray(periods) ? periods : periods?.items || periods?.results || []).map(p=>({start:startLocal(p.startDate), end:endLocal(p.endDate)}));
+    const fy = list.find(p => p.start <= end && end <= p.end);
+    if (!fy) throw new Fail("no_period", `Organisaatiolla ${org} ei ole tilikautta, johon ${fiDate(end)} osuu.`);
+    const start = fy.start;
+    const prevStart = shiftYear(start,-1), prevEnd = shiftYear(end,-1), prevFyEnd = dayBefore(start);
+
+    // header
+    $("orgName").textContent = info?.name || `Organisaatio ${org}`;
+    $("periodText").textContent = `Kausi ${fiDate(start)} → ${fiDate(end)}, vertailu ${fiDate(prevStart)} → ${fiDate(prevEnd)}`;
+    const meta = [`Organisaatio ${org}`, info?.businessId ? `Y-tunnus ${info.businessId}` : null, `Tilikausi ${fiDate(fy.start)} → ${fiDate(fy.end)}`].filter(Boolean);
+    $("metaRow").replaceChildren(...meta.map(m=>el("span",{},m)));
+    const yC = String(+end.slice(0,4)), yP = String(+prevEnd.slice(0,4));
+    const names = yC === yP ? ["Kausi","Vertailu"] : [yC, yP];
+    document.querySelectorAll(".yCur").forEach(e=>e.textContent=names[0]); document.querySelectorAll(".yPrev").forEach(e=>e.textContent=names[1]);
+
+    // months of the period
+    const months = []; let [y,m] = start.split("-").map(Number);
+    while (ymd(y,m,1) <= end){ months.push({y,m,from:ymd(y,m,1)<start?start:ymd(y,m,1), to:ymd(y,m,lastDay(y,m))>end?end:ymd(y,m,lastDay(y,m))}); m++; if (m>12){m=1;y++;} }
+
+    const dim = currentDim();
+    $("salesFilterNote").hidden = !dim;
+    if (dim) { const c = el("span",{class:"chip"},"Rajaus: " + dim.label); $("periodText").append(" ", c); }
+    const P = (from,to) => () => call("build_profit_and_loss_statement",{organizationNumber:org, fromDate:from, toDate:to});
+    const L = (from,to) => () => ledgerPL(org, from, to, dim);
+    const BS = [() => call("build_balance_sheet",{organizationNumber:org, asOfDate:end}), () => call("build_balance_sheet",{organizationNumber:org, asOfDate:prevFyEnd})];
+    const tasks = dim ? [L(start,end), L(prevStart,prevEnd), ...BS]
+      : [P(start,end), P(prevStart,prevEnd), ...BS, ...months.map(x=>P(x.from,x.to)), ...months.map(x=>P(shiftYear(x.from,-1), shiftYear(x.to,-1)))];
+    const salesP = runSales(org, months, end, names).catch(() => {});
+    const ccP = runCostCenters(org, start, end, dim, months).catch(() => {});
+    let done = 0; status(`Haetaan 0/${tasks.length}`);
+    const res = await pool(tasks, 4, () => status(`Haetaan ${++done}/${tasks.length}`));
+    const firstErr = res.find(r=>!r.ok)?.e;
+    if (res.every(r=>!r.ok)) throw firstErr;
+    const v = (i) => res[i].ok ? res[i].v : null;
+    const bsC=v(2), bsP=v(3);
+    const warns = [];
+    let plC, plP, mC, mP;
+    if (dim) {
+      const a = v(0), b = v(1);
+      plC = a?.total; plP = b?.total;
+      mC = months.map(x => a ? a.month(x.y, x.m) : null);
+      mP = months.map(x => b ? b.month(x.y-1, x.m) : null);
+      if (a?.truncated || b?.truncated) warns.push(`Vientejä oli yli ${nf0.format(MAX_PAGES*PAGE)}, joten kaikkia ei haettu. Lyhennä kautta.`);
+      warns.push(`Tuloslaskelma on laskettu kirjanpidon vienneistä rajauksella ${dim.label} (${nf0.format(a?.count||0)} vientiä). Tase ja myyntilaskut eivät rajaudu.`);
+    } else {
+      plC = v(0); plP = v(1);
+      mC = months.map((_,i)=>v(4+i)); mP = months.map((_,i)=>v(4+months.length+i));
+    }
+
+    // notices
+    if (!plC) throw res[0].e;
+    if (!plP) warns.push("Vertailukauden tuloslaskelmaa ei saatu (vertailu voi osua kahdelle tilikaudelle).");
+    [[bsC,end],[bsP,prevFyEnd]].forEach(([b,d])=>{ if (b?.balanceMismatch) warns.push(`Tase ${fiDate(d)} ei täsmää: ero ${eur(b.balanceMismatch.difference)}.`); });
+    const unc = new Map();
+    [bsP,plP,plC,bsC].forEach(x => (x?.unclassifiedAccounts||[]).forEach(a => { if (a.amount) unc.set(a.number, a); })); // latest wins: the current balance sheet
+    unc.forEach(a => warns.push(`Luokittelematon tili ${a.number} ${a.name}, saldo ${eur(a.amount)}, ei mukana summissa.`));
+    const failedMonths = [...mC,...mP].filter(x=>!x).length; if (failedMonths) warns.push(`${failedMonths} kuukauden luvut jäivät saamatta.`);
+    if (warns.length){ const w=$("warnBox"); w.replaceChildren(el("strong",{},"Tarkista ennen käyttöä."), (()=>{const ul=el("ul"); warns.forEach(t=>ul.appendChild(el("li",{},t))); return ul;})()); w.hidden=false; }
+
+    // KPIs
+    const rC=line(plC,"LIIKEVAIHTO"), rP=plP?line(plP,"LIIKEVAIHTO"):null, eC=ebit(plC), eP=plP?ebit(plP):null;
+    const cashC=findBs(bsC,"vastaavaa","Rahat ja pankkisaamiset"), cashP=findBs(bsP,"vastaavaa","Rahat ja pankkisaamiset");
+    const ch = (a,b) => b ? ` · ${a>=b?"+":"−"}${nf0.format(Math.abs((a/b-1)*100))} %` : "";
+    const k = [
+      ["Liikevaihto", eur(rC), rP==null?"Ei vertailua":`Vertailu: ${eur(rP)}${ch(rC,rP)}`],
+      ["Liikevoitto", eur(eC), eP==null?"Ei vertailua":`Vertailu: ${eur(eP)}`],
+      ["Liikevoittoprosentti", rC?pct(eC/rC*100):"—", rP?`Vertailu: ${pct(eP/rP*100)}`:"Ei vertailua"],
+      [`Rahat ja pankki ${fiDate(end)}`, eur(cashC), cashP==null?"":`${fiDate(prevFyEnd)}: ${eur(cashP)}`]
+    ];
+    $("kpis").replaceChildren(...k.map(([l,val,c])=>{const d=el("div",{class:"card kpi"}); d.append(el("div",{class:"lbl"},l), el("div",{class:"val"},val), el("div",{class:"cmp"},c)); return d;}));
+
+    // charts
+    const labs = months.map(x=>MONTHS[x.m-1]);
+    const r1 = mC.map(x=>x?line(x,"LIIKEVAIHTO"):null), r2 = mP.map(x=>x?line(x,"LIIKEVAIHTO"):null);
+    const e1 = mC.map(x=>x?ebit(x):null), e2 = mP.map(x=>x?ebit(x):null);
+    bars($("c1"),labs,r1,r2,names); $("t1").replaceChildren(monthTable(labs,r1,r2,names));
+    bars($("c2"),labs,e1,e2,names); $("t2").replaceChildren(monthTable(labs,e1,e2,names));
+
+    // statements
+    $("plSub").textContent = `${fiDate(start)} → ${fiDate(end)} ja vertailukausi`;
+    $("pl").replaceChildren(stmtTable(merge(flatten(plC.tuloslaskelma), plP?flatten(plP.tuloslaskelma):[]), names, true));
+    $("bsSub").textContent = `${fiDate(end)} ja ${fiDate(prevFyEnd)}`;
+    if (bsC){
+      const side = (key, title) => { const a = bsC?.[key], b = bsP?.[key]; const rows = merge(flatten(a), b?flatten(b):[]); rows.push({key:key+"/total", name:title, depth:0, sub:true, cur:a?.amount, prev:b?.amount}); return rows; };
+      const rows = [...side("vastaavaa","VASTAAVAA YHTEENSÄ"), ...side("vastattavaa","VASTATTAVAA YHTEENSÄ")];
+      const extra = [];
+      if (bsC.balanceMismatch || bsP?.balanceMismatch){ const tr=el("tr"); const td=el("td"); td.appendChild(el("span",{class:"mm"},"Ero (ei täsmää)")); tr.appendChild(td);
+        tr.appendChild(el("td",{},eur(bsC.balanceMismatch?.difference ?? 0))); tr.appendChild(el("td",{},bsP?eur(bsP.balanceMismatch?.difference ?? 0):"—")); extra.push(tr); }
+      $("bs").replaceChildren(stmtTable(rows,[fiDate(end),fiDate(prevFyEnd)],false,extra));
+    } else $("bs").replaceChildren(el("p",{class:"empty"},"Tasetta ei saatu."));
+    await Promise.all([salesP, ccP]);
+    if (oldestFetch !== null) $("metaRow").append(el("span",{},`Haettu ${new Date(oldestFetch).toLocaleString("fi-FI",{dateStyle:"short",timeStyle:"short"})}`));
+    // Remember what was shown (the selection only, never the figures) so a return visit can show it again.
+    try { localStorage.setItem("easorRaportti", JSON.stringify({org, month:$("month").value, dimType: dim ? dim.type : "", dimCodes: dim ? [...dim.codes] : [], shownAt: Date.now()})); } catch {}
+    status(restoring ? "Viimeksi haetut luvut. Paina Hae luvut, niin saat tuoreet." : "Valmis");
+  } catch (e) {
+    if (isHostMissing(e)) { $("noHost").hidden = false; status(""); }
+    else { const t = e.code==="no_period" ? e.message : errorText(e); $("errBox").replaceChildren(el("strong",{},"Lukuja ei saatu. "), document.createTextNode(t||"")); $("errBox").hidden=false; status(""); }
+  } finally { $("go").disabled = false; document.body.classList.remove("loading"); }
+}
+$("form").addEventListener("submit", (ev) => { restoring = false; run(ev); });
+
+// On a return visit, show the last report again from the app's stored results.
+async function restoreLast(){
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem("easorRaportti") || "null"); } catch {}
+  if (!s?.org || !s.month || !s.shownAt || Date.now() - s.shownAt > KEEP_MS - 36e5) return;
+  restoring = true;
+  try {
+    await loadDims(s.org);
+    if (s.dimType && [...$("dimType").options].some(o => o.value === s.dimType)) {
+      $("dimType").value = s.dimType;
+      await loadDimValues();
+      const known = new Set(dimItems.map(d => d.code));
+      (s.dimCodes || []).filter(c => known.has(c)).forEach(c => dimSel.add(c));
+      msButtonText();
+    }
+    await run();
+  } finally { restoring = false; }
+}
+ready.then(m => { if (!m) $("noHost").hidden = false; else { loadOrgList(); loadDims(parseInt($("org").value,10)); restoreLast(); } });
+})();
+</script>
